@@ -1,0 +1,37 @@
+@import "./styles/generated/themes/light.css";
+@import "./styles/generated/themes/dark.css";
+
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Regular.ttf") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Medium.ttf") format("opentype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-SemiBold.ttf") format("opentype");
+  font-weight: 600;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ds-font-body, "Rubik", system-ui, sans-serif);
+  background: var(--ui-page-bg-default, #f5f6fa);
+  color: var(--ui-text-primary-default, #1a1a1a);
+}

@@ -1,0 +1,101 @@
+// Design-system tokens — pulled 1:1 from Figma variables (Orrrion_4262FF).
+// Single source of truth: change a value here and every DS component updates.
+// Imported once globally in src/index.tsx.
+
+:root {
+  // ---- Colors: brand / text / surface (semantic → palette in colors.scss) ----
+  --ds-color-brand: var(--button-brand-primary-bg-default);
+  --ds-color-brand-text: var(--button-brand-primary-text-default);
+  --ds-color-text-secondary: var(--ui-text-secondary-default);
+  --ds-color-text-tertiary: var(--ui-text-tertiary-default); // arrows
+  --ds-color-card-bg: var(--ui-card-bg-default);
+  --ds-color-page-bg: var(--ui-page-bg-default);
+  --ds-color-active-indicator: var(--ui-tooltip-bg-default);
+
+  // ---- Colors: status tones (icon bg / icon stroke) ----
+  --ds-tone-blue-bg: var(--blue-background-subtlest); // overview default
+  --ds-tone-01-bg: var(--status-01-background-subtle); // apps
+  --ds-tone-01-fg: var(--status-01-foreground-strong);
+  --ds-tone-02-bg: var(--status-02-background-subtle); // app insights
+  --ds-tone-02-fg: var(--status-02-foreground-strong);
+  --ds-tone-03-bg: var(--status-03-background-subtle); // balance
+  --ds-tone-03-fg: var(--status-03-foreground-strong);
+  --ds-tone-success-bg: var(--success-background-subtle); // subscription
+  --ds-tone-success-fg: var(--success-background-strong);
+  --ds-tone-warning-bg: var(--warning-background-subtle); // orders
+  --ds-tone-warning-fg: var(--warning-foreground-strong);
+
+  // Серый тон status-04 из макета. Генерируемая тема приложения объявляет
+  // --status-04-* под :root[data-theme=...] и по специфичности перебивает
+  // colors.scss, поэтому значения Figma держим в ds-неймспейсе.
+  --ds-status-04-subtlest: #fafafb; // status-04/background/subtlest
+  --ds-status-04-strong: #98a2b3; // status-04/foreground|border/strong
+  --ds-status-04-medium: #e0e3e8; // status-04/border/medium
+
+  // ---- Radii ----
+  --ds-radius-control-small: 8px; // control/extraSmall (chips, inputs)
+  --ds-radius-control-medium: 10px; // control/medium (buttons)
+  --ds-radius-control-large: 12px; // control/large (input, dropdown, option row)
+  --ds-radius-control-extralarge: 14px; // control/extraLarge (icon box)
+  --ds-radius-card: 16px; // margin/medium (card)
+  --ds-radius-large: 20px; // element/large (header card)
+  --ds-radius-full: 999px; // element/full (pill)
+
+  // ---- Sizing & spacing ----
+  --ds-control-m: 32px; // control/m (item height)
+  --ds-control-xs: 28px; // control/xs (circular button, switch item)
+  --ds-menu-icon-size: 16px; // visible glyph inside the 20px icon slot
+  --ds-space-4: 4px; // gap/sm, gap/md
+  --ds-space-8: 8px; // margin/small, gap/lg
+  --ds-space-12: 12px; // padding/md
+  --ds-space-16: 16px; // margin/medium, element/s
+  --ds-padding-lg: 16px; // padding/lg
+  --ds-padding-xl: 24px; // padding/xl
+  --ds-sidebar-width-full: 224px; // element/SideBarMenuWeight_full
+
+  // ---- Buttons ----
+  --ds-button-gap-l: 8px;
+  --ds-button-padding-x: 12px; // button/padding/m
+  --ds-button-padding-y: 8px; // button/padding/block/s
+
+  // ---- Typography ----
+  --ds-font-body: "Rubik", system-ui, sans-serif; // typography/font-family/primary
+  --ds-font-body-size: 16px;
+  --ds-font-body-line: 24px;
+  --ds-font-button-size: 14px;
+  --ds-font-button-line: 20px;
+  --ds-font-button-weight: 500;
+
+  // ---- Typography scale (Figma text styles / typography/*) ----
+  --ds-font-weight-regular: 400; // typography/font-weight/400
+  --ds-font-weight-medium: 500; // typography/font-weight/500
+  --ds-font-weight-semibold: 600; // heading/small/semibold/fontWeight
+  --ds-letter-spacing-0: 0px; // typography/letter-spacing/0
+  --ds-font-size-12: 12px; // label/small/regular/fontSize
+  --ds-line-height-16: 16px; // label/small/regular/lineHeight
+  --ds-font-size-14: 14px; // body/small/regular/fontSize
+  --ds-line-height-20: 20px; // body/small/regular/lineHeight
+  --ds-font-size-16: 16px; // typography/font-size/16 (body/medium/regular)
+  --ds-line-height-24: 24px; // typography/line-height/24
+  --ds-font-size-18: 18px; // heading/small/semibold/fontSize
+  --ds-font-size-20: 20px; // heading/small/semibold/fontSize (card heading)
+  --ds-line-height-28: 28px; // heading/small/semibold/lineHeight
+  --ds-font-size-28: 28px; // heading/large/semibold/fontSize (section heading)
+  --ds-line-height-36: 36px; // heading/large/semibold/lineHeight
+  --ds-font-size-32: 32px; // heading/large/semibold/fontSize (card heading)
+  --ds-line-height-40: 40px; // heading/large/semibold/lineHeight
+  --ds-font-size-48: 48px; // display/large/regular/fontSize (bonus card)
+  --ds-line-height-56: 56px; // display/large/regular/lineHeight (bonus card)
+  --ds-font-size-56: 56px; // display/large/regular|semibold/fontSize
+  --ds-line-height-64: 64px; // display/large/regular|semibold/lineHeight
+}
+
+// Тёмная тема для серых из ds-неймспейса. Остальные --ds-* делегируют
+// семантическим токенам и переворачиваются сами, а эти держат значения Figma
+// напрямую — значит, и тёмные им нужно задать руками. Берём их из тёмной темы
+// приложения, чтобы серый в логе совпадал с серым во всём остальном.
+html[data-theme="dark"] {
+  --ds-status-04-subtlest: #1a1b1f;
+  --ds-status-04-medium: #393b42;
+  --ds-status-04-strong: #7c7e8a;
+}

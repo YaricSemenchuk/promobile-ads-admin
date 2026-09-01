@@ -1,0 +1,110 @@
+// Общая раскладка экранов-списков админки.
+//
+// Пять из шести — это «фильтр, таблица, пагинация», и различаются они только
+// колонками. Держать у каждого свой styles.module.scss значило бы править
+// отступы в пяти файлах и получить пять разных отступов через месяц.
+// Уникальное для экрана остаётся в его собственном модуле рядом.
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ui-text-primary-default);
+  margin: 0 0 20px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.search {
+  width: 320px;
+  padding: 10px 12px;
+  border: 1px solid var(--ui-border-primary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.select {
+  padding: 10px 12px;
+  border: 1px solid var(--ui-border-primary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--ui-card-bg-default);
+  color: var(--ui-text-primary-default);
+}
+
+.state {
+  color: var(--ui-text-tertiary-default);
+  padding: 24px 0;
+}
+
+.rowLink {
+  color: var(--ui-text-primary-default);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--blue-background-strong, #4262ff);
+    text-decoration: underline;
+  }
+}
+
+// Статус несёт смысл цветом, но текст всегда остаётся на месте: цвет усиливает
+// подпись, а не заменяет её — иначе экран нечитаем при дальтонизме и в ч/б.
+.ok {
+  color: var(--ui-text-primary-success, #12b76a);
+}
+
+.bad {
+  color: var(--ui-text-primary-error, #f04438);
+}
+
+.warn {
+  color: var(--ui-text-primary-warning, #f79009);
+}
+
+.neutral {
+  color: var(--ui-text-secondary-default);
+}
+
+// Второстепенное в той же ячейке: идентификатор рядом с именем, причина рядом
+// со статусом. Отдельная колонка ради поля, пустого в 99% строк, не нужна.
+.note {
+  color: var(--ui-text-tertiary-default);
+  font-weight: 400;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+// Полоса прогресса задачи. Тонкая, под текстом «3 / 20» — она уточняет цифру,
+// а не заменяет её.
+.progress {
+  display: block;
+  width: 100%;
+  max-width: 120px;
+  height: 4px;
+  margin-top: 4px;
+  border-radius: 2px;
+  background: var(--ui-border-secondary-default);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: var(--blue-background-strong, #4262ff);
+}
+
+.live {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--ui-text-tertiary-default);
+}

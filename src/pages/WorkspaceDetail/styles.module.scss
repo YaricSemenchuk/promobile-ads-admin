@@ -1,0 +1,115 @@
+.back {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--ui-text-tertiary-default);
+  text-decoration: none;
+  margin-bottom: 12px;
+
+  &:hover {
+    color: var(--ui-text-primary-default);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ui-text-primary-default);
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--ui-text-tertiary-default);
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ui-text-primary-default);
+  margin: 32px 0 16px;
+}
+
+.state {
+  color: var(--ui-text-tertiary-default);
+  padding: 24px 0;
+}
+
+.error {
+  color: var(--ui-text-primary-error, #f04438);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.impersonate {
+  flex: none;
+  padding: 10px 16px;
+  border: 1px solid var(--ui-border-primary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  background: var(--ui-card-bg-default);
+  color: var(--ui-text-primary-default);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--blue-background-strong, #4262ff);
+    color: var(--blue-background-strong, #4262ff);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.tiles {
+  display: flex;
+  gap: 16px;
+}
+
+.tile {
+  flex: 1;
+  background: var(--ui-card-bg-default);
+  border: 1px solid var(--ui-border-secondary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  padding: 16px 20px;
+}
+
+.tileLabel {
+  font-size: 13px;
+  color: var(--ui-text-tertiary-default);
+  margin-bottom: 8px;
+}
+
+.tileValue {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ui-text-primary-default);
+}
+
+// Статус несёт смысл цветом, поэтому текст самого статуса остаётся на месте:
+// цвет здесь усиливает подпись, а не заменяет её.
+.ok {
+  color: var(--ui-text-primary-success, #12b76a);
+}
+
+.bad {
+  color: var(--ui-text-primary-error, #f04438);
+}
+
+.neutral {
+  color: var(--ui-text-secondary-default);
+}
+
+.note {
+  color: var(--ui-text-tertiary-default);
+  font-weight: 400;
+}

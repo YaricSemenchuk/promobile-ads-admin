@@ -1,0 +1,31 @@
+{
+  "name": "promobile-ads-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.14.1",
+    "axios": "^1.20.0",
+    "classnames": "^2.5.1",
+    "graphql": "^16.14.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^6.1.0",
+    "oxlint": "^1.79.0",
+    "sass": "^1.103.1",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2"
+  }
+}

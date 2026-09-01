@@ -1,0 +1,84 @@
+// Таблица экранов настроек. Токены те же, что и у остальных перерисованных
+// экранов (--ui-*), поэтому тема переключается без переопределений.
+
+.wrap {
+  // Скролл — страховка для узких экранов: на рабочей ширине колонки заданы
+  // так, что таблица укладывается целиком.
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  // Фиксированная раскладка — то, из-за чего таблица перестаёт вылезать:
+  // ширину диктуют колонки, а не содержимое ячеек с контролами.
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--ui-text-secondary-default);
+    border-bottom: 1px solid var(--ui-border-secondary-default);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--ui-border-secondary-default);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  // Крайние колонки прижаты к краям карточки — как в макете.
+  th:first-child,
+  td:first-child {
+    padding-left: 8px;
+  }
+
+  th:last-child,
+  td:last-child {
+    padding-right: 8px;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  th,
+  td {
+    box-sizing: border-box;
+  }
+}
+
+.headBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+
+  svg {
+    color: var(--ui-text-quaternary-default, currentColor);
+  }
+}
+
+.headBtnActive {
+  color: var(--ui-text-primary-default);
+
+  svg {
+    color: var(--button-brand-primary-bg-default, #4262ff);
+  }
+}
+
+.empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--ui-text-secondary-default);
+}

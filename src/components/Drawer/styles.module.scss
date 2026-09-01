@@ -1,0 +1,482 @@
+// Каркас бокового дровера (Figma 1428:4814, 1488:75619, 1493:76596).
+//
+// Панель 482px выезжает справа и скруглена только по левому краю — правым она
+// прижата к краю окна. Прокручивается содержимое, подвал приклеен к низу.
+// Только семантические токены — тема переключается сама.
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(13, 19, 48, 0.32);
+}
+
+.drawer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 100%;
+  height: 100%;
+  padding: var(--ds-space-16) var(--ds-padding-xl);
+  box-sizing: border-box;
+  border-radius: 24px 0 0 24px;
+  background: var(--ui-card-bg-default, #fff);
+  color: var(--ui-text-primary-default);
+  font-family: var(--ds-font-body, inherit);
+  animation: drawerIn 0.18s ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes drawerIn {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+}
+
+// Заголовок уезжает вместе с содержимым, как и в макете, а подвал — нет.
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--ds-padding-xl);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ds-space-12);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-12);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--ds-font-size-28, 28px);
+  font-weight: var(--ds-font-weight-semibold, 600);
+  line-height: var(--ds-line-height-36, 36px);
+}
+
+// Дровер управления подписан не крупным заголовком, а именем того, чем
+// управляют, со статусом рядом — 18/24.
+.titleSm {
+  font-size: var(--ds-font-size-18, 18px);
+  line-height: var(--ds-line-height-24, 24px);
+}
+
+.subtitle {
+  margin: var(--ds-space-4) 0 0;
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+  color: var(--ui-text-secondary-default, #7c7e8a);
+}
+
+.closeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--ds-radius-control-small, 8px);
+  background: transparent;
+  color: var(--ui-text-primary-default);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--button-brand-primary-bg-default, #4262ff);
+  }
+}
+
+// ---- шаги ----
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-space-8);
+}
+
+.stepMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--ds-radius-full, 999px);
+  background: var(--button-brand-primary-bg-default, #4262ff);
+  color: var(--button-brand-primary-text-default, #fff);
+  font-size: var(--ds-font-size-12, 12px);
+  font-weight: var(--ds-font-weight-medium, 500);
+  line-height: var(--ds-line-height-24, 24px);
+}
+
+.stepBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--ds-space-8);
+  min-width: 0;
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: var(--ds-font-size-16, 16px);
+  font-weight: var(--ds-font-weight-medium, 500);
+  line-height: var(--ds-line-height-24, 24px);
+}
+
+// ---- поля ----
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+  width: 100%;
+}
+
+.label {
+  font-size: var(--ds-font-size-12, 12px);
+  line-height: var(--ds-line-height-16, 16px);
+  color: var(--ui-text-tertiary-default, #9698a3);
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--ds-space-16);
+  box-sizing: border-box;
+  border: 1px solid var(--ui-text-quaternary-default, #d7d9e0);
+  border-radius: var(--ds-radius-control-large, 12px);
+  background: transparent;
+  color: var(--ui-text-primary-default);
+  font-family: inherit;
+  font-size: var(--ds-font-size-16, 16px);
+  line-height: var(--ds-line-height-24, 24px);
+
+  &::placeholder {
+    color: var(--ui-text-tertiary-default, #9698a3);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--button-brand-primary-bg-default, #4262ff);
+  }
+
+  &:disabled {
+    color: var(--ui-text-secondary-default, #7c7e8a);
+    cursor: default;
+  }
+}
+
+.textarea {
+  height: auto;
+  min-height: 120px;
+  padding: var(--ds-space-12) var(--ds-space-16);
+  resize: vertical;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--ds-font-size-14, 14px);
+}
+
+.caption {
+  font-size: var(--ds-font-size-12, 12px);
+  line-height: var(--ds-line-height-16, 16px);
+  color: var(--ui-text-secondary-default, #7c7e8a);
+  overflow-wrap: anywhere;
+}
+
+// ---- выбор из списка ----
+
+.select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-8);
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--ds-space-16);
+  box-sizing: border-box;
+  border: 1px solid var(--ui-text-quaternary-default, #d7d9e0);
+  border-radius: var(--ds-radius-control-large, 12px);
+
+  &:focus-within {
+    border-color: var(--button-brand-primary-bg-default, #4262ff);
+  }
+}
+
+.selectText {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--ds-font-size-16, 16px);
+  line-height: var(--ds-line-height-24, 24px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectArrow {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--ui-text-secondary-default, #7c7e8a);
+}
+
+// Нативный список лежит поверх строки и прозрачен: раскрывается системный
+// popup, а видно то, что нарисовано под ним.
+.selectNative {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.selectOff {
+  opacity: 0.6;
+
+  .selectNative {
+    cursor: default;
+  }
+}
+
+// ---- плашка внутри шага ----
+
+// Рамка добавлена к макету намеренно: в тёмной теме подложка плашки и фон
+// панели — один и тот же токен (#1a1b1f), и без рамки плашки не видно вовсе.
+.infoCard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-space-8);
+  width: 100%;
+  padding: var(--ds-space-8);
+  box-sizing: border-box;
+  border: 1px solid var(--ui-border-secondary-default, #e9eaf2);
+  border-radius: var(--ds-radius-control-large, 12px);
+  background: var(--neutral-background-subtlest, #f5f6fc);
+}
+
+// Знак сервиса лежит на плашке 40×40 — на сером фоне он иначе теряется.
+.infoCardIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ds-radius-control-small, 8px);
+  background: var(--ui-card-bg-default, #fff);
+}
+
+.infoCardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+  min-width: 0;
+}
+
+.infoCardTitle {
+  margin: 0;
+  font-size: var(--ds-font-size-14, 14px);
+  font-weight: var(--ds-font-weight-medium, 500);
+  line-height: var(--ds-line-height-20, 20px);
+}
+
+// Абзац панели: и в плашке, и в шаге. Переносится по любому символу —
+// внутри попадаются bundle ID и адреса, которые рвать больше негде.
+.text {
+  margin: 0;
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+  color: var(--ui-text-primary-default, #202020);
+  overflow-wrap: anywhere;
+}
+
+.textMuted {
+  color: var(--ui-text-secondary-default, #7c7e8a);
+}
+
+// ---- строка «скопировать» ----
+
+.copyRow {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-8);
+  width: 100%;
+  min-height: 48px;
+  padding: var(--ds-space-8) var(--ds-space-12);
+  box-sizing: border-box;
+  border: 1px solid var(--ui-text-quaternary-default, #d7d9e0);
+  border-radius: var(--ds-radius-control-large, 12px);
+}
+
+// Значение переносится по любому символу: URL и ключ длиннее панели, и
+// обрезать их многоточием нельзя — их сюда положили, чтобы прочитать.
+// Переводы строк сохраняются: в строке лежит не только URL, но и готовый
+// запрос, а он читается только разбитым на строки.
+.copyValue {
+  flex: 1;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+// Готовый файл, а не значение. Переносить его по любому символу нельзя:
+// отступы съезжают, а имена рвутся посередине — читать такой код невозможно.
+// Поэтому строки не переносятся вовсе, длинные уезжают вбок, а высокий файл
+// прокручивается внутри своей рамки. Кнопка при этом встаёт к верху: у файла
+// на тридцать строк середины нет.
+.copyRowCode {
+  align-items: flex-start;
+}
+
+.copyValueCode {
+  max-height: 300px;
+  overflow: auto;
+  font-size: var(--ds-font-size-12, 12px);
+  line-height: var(--ds-line-height-16, 16px);
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: none;
+  height: 32px;
+  padding: 0 var(--ds-space-12);
+  border: 1.5px solid var(--ui-border-secondary-default, #e9eaf2);
+  border-radius: var(--ds-radius-control-small, 8px);
+  background: transparent;
+  color: var(--ui-text-secondary-default, #7c7e8a);
+  font-family: inherit;
+  font-size: var(--ds-font-size-14, 14px);
+  font-weight: var(--ds-font-weight-medium, 500);
+  line-height: var(--ds-line-height-20, 20px);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--ui-text-quaternary-default, #d7d9e0);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.copyBtnDone {
+  color: var(--badge-success-soft-text-default, #12b76a);
+  border-color: var(--badge-success-soft-text-default, #12b76a);
+}
+
+// ---- действие-ссылка внутри панели ----
+
+.linkBtn {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--button-brand-secondary-text-default, #4262ff);
+  font-family: inherit;
+  font-size: var(--ds-font-size-14, 14px);
+  font-weight: var(--ds-font-weight-medium, 500);
+  line-height: var(--ds-line-height-20, 20px);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    color: var(--ui-text-tertiary-default, #9698a3);
+    cursor: default;
+  }
+}
+
+.linkBtnDanger {
+  color: var(--badge-error-soft-text-default, #e23428);
+}
+
+// ---- подвал ----
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-12);
+  flex: none;
+  padding: var(--ds-space-16) 0 0;
+  border-top: 1px solid var(--ui-border-secondary-default, #e9eaf2);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 48px;
+  padding: var(--ds-space-12) var(--ds-padding-xl);
+  border-radius: var(--ds-radius-control-medium, 10px);
+  font-family: inherit;
+  font-size: var(--ds-font-size-16, 16px);
+  font-weight: var(--ds-font-weight-medium, 500);
+  line-height: var(--ds-line-height-24, 24px);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.buttonPrimary {
+  border: 0;
+  background: var(--button-brand-primary-bg-default, #4262ff);
+  color: var(--button-brand-primary-text-default, #fff);
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--button-brand-primary-bg-hover, #5c77ff);
+  }
+
+  &:disabled {
+    background: var(--button-brand-primary-bg-disabled, #e9eaf2);
+    cursor: default;
+  }
+}
+
+.buttonGhost {
+  border: 1.5px solid var(--ui-border-secondary-default, #e9eaf2);
+  background: transparent;
+  color: var(--ui-text-secondary-default, #7c7e8a);
+
+  &:hover:not(:disabled) {
+    border-color: var(--ui-text-quaternary-default, #d7d9e0);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+}

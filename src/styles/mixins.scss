@@ -1,0 +1,49 @@
+@import "src/styles/constants";
+@import "src/styles/generated/tokens";
+
+@mixin no-show-for-mobile {
+  @media screen and (max-width: $mobile) {
+    display: none;
+  }
+}
+
+@mixin padding-conversion-by-screen-size(
+  $initial-padding,
+  $proportion-difference: 1.5
+) {
+  padding: $initial-padding calc($initial-padding * $proportion-difference);
+
+  @media screen and (max-width: $tablet) {
+    padding: calc($initial-padding / 2)
+      calc($initial-padding * 2 / $proportion-difference);
+  }
+
+  @media screen and (max-width: $mobile) {
+    padding: calc($initial-padding / 3) calc($initial-padding / 2);
+  }
+}
+
+@mixin margin-set-by-direction($direction) {
+  @if $direction == top {
+    margin-top: $margin-desktop;
+    @media screen and (max-width: $tablet) {
+      margin-top: $margin-tablet;
+    }
+  } @else if $direction == bottom {
+    margin-bottom: $margin-desktop;
+    @media screen and (max-width: $tablet) {
+      margin-bottom: $margin-tablet;
+    }
+  }
+}
+
+@mixin flex-rules(
+  $direction,
+  $x-axis-direction: inherit,
+  $y-axis-direction: inherit
+) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $x-axis-direction;
+  align-items: $y-axis-direction;
+}

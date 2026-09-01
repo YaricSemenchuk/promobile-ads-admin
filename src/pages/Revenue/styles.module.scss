@@ -1,0 +1,80 @@
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ui-text-primary-default);
+  margin: 0 0 20px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ui-text-primary-default);
+  margin: 32px 0 16px;
+}
+
+.state {
+  color: var(--ui-text-tertiary-default);
+  padding: 24px 0;
+}
+
+.tiles {
+  display: flex;
+  gap: 16px;
+}
+
+.tile {
+  flex: 1;
+  background: var(--ui-card-bg-default);
+  border: 1px solid var(--ui-border-secondary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  padding: 16px 20px;
+}
+
+.tileWarn {
+  border-color: var(--ui-text-primary-error, #f04438);
+}
+
+.tileLabel {
+  font-size: 13px;
+  color: var(--ui-text-tertiary-default);
+  margin-bottom: 8px;
+}
+
+.tileValue {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ui-text-primary-default);
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 200px;
+  background: var(--ui-card-bg-default);
+  border: 1px solid var(--ui-border-secondary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  padding: 16px;
+}
+
+.bar {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.barFill {
+  width: 60%;
+  min-height: 2px;
+  background: var(--blue-background-strong, #4262ff);
+  border-radius: 2px 2px 0 0;
+}
+
+.barLabel {
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--ui-text-tertiary-default);
+}

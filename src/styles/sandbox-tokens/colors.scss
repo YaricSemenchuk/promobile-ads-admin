@@ -1,0 +1,129 @@
+// Design-system COLOR tokens — pulled 1:1 from Figma (node 385:101091, light mode).
+// Names mirror the Figma variable paths (kebab-cased). These are the *primitives*
+// + *semantic* surface/text tokens. Dark-mode overrides live under [data-theme="dark"]
+// at the bottom (filled from the Figma dark frame).
+
+:root {
+  // ===== Semantic: text =====
+  --ui-text-primary-default: #202020;
+  --ui-text-primary-active: #4262ff;
+  --ui-text-primary-error: #f04438;
+  --ui-text-secondary-default: #393b42;
+  --ui-text-tertiary-default: #9698a3;
+  --ui-text-quaternary-default: #d7d9e0;
+  --ui-text-inverse-default: #ffffff;
+  --ui-text-caption-default: #7c7e8a; // Neutral/text-caption
+
+  // ===== Semantic: surfaces =====
+  --ui-card-bg-default: #ffffff;
+  --ui-modal-bg-default: #ffffff;
+  --ui-modal-bg-hover: #e9eaf2;
+  --ui-page-bg-default: #f5f6fc;
+  --ui-tooltip-bg-default: #4262ff;
+  --ui-popover-bg-default: #202020;
+
+  // ===== Semantic: borders =====
+  --ui-border-primary-default: #d7d9e0;
+  --ui-border-secondary-default: #e9eaf2;
+  --ui-border-tertiary-default: #f5f6fc;
+  --ui-border-inverse-default: #ffffff;
+
+  // ===== Primitive: blue =====
+  --blue-background-strongest: #304bd1;
+  --blue-background-strong: #4262ff;
+  --blue-background-medium: #c6d0ff;
+  --blue-background-subtle: #d9e0ff;
+  --blue-background-subtlest: #f6f7ff;
+  --blue-border-strong: #4262ff;
+
+  // ===== Primitive: neutral =====
+  --neutral-background-strongest: #707280;
+  --neutral-background-strong: #9698a3;
+  --neutral-background-medium: #d7d9e0;
+  --neutral-background-subtle: #e9eaf2;
+  --neutral-background-subtlest: #f5f6fc;
+  --neutral-foreground-strongest: #747c8b;
+
+  // ===== Primitive: error =====
+  --error-background-strongest: #e23428;
+  --error-background-strong: #f04438;
+  --error-background-medium: #fbc7c3;
+  --error-background-subtle: #fcdad7;
+  --error-background-subtlest: #fef6f5;
+
+  // ===== Primitive: success =====
+  --success-background-strongest: #0c9153;
+  --success-background-strong: #12b76a;
+  --success-background-medium: #b8e9d2;
+  --success-background-subtle: #d0f1e1;
+  --success-background-subtlest: #f3fbf8;
+
+  // ===== Primitive: warning =====
+  --warning-foreground-strong: #f1bd11;
+  --warning-background-strongest: #b68e0b;
+  --warning-background-strong: #f1bd11;
+  --warning-background-medium: #fbebb8;
+  --warning-background-subtle: #fcf2cf;
+  --warning-background-subtlest: #fef9ea;
+
+  // ===== Primitive: status-01 (sky) =====
+  --status-01-foreground-strong: #31adff;
+  --status-01-background-strong: #31adff;
+  --status-01-background-medium: #c1e6ff;
+  --status-01-background-subtle: #d6efff;
+  --status-01-background-subtlest: #f1f9ff;
+
+  // ===== Primitive: status-02 (orange) =====
+  --status-02-foreground-strong: #f79009;
+  --status-02-background-strong: #f79009;
+  --status-02-background-medium: #fddeb5;
+  --status-02-background-subtle: #fde9ce;
+  --status-02-background-subtlest: #fef7ee;
+
+  // ===== Primitive: status-03 (purple) =====
+  --status-03-foreground-strong: #875bf7;
+  --status-03-background-strong: #875bf7;
+  --status-03-background-medium: #dbcefd;
+  --status-03-background-subtle: #e7defd;
+  --status-03-background-subtlest: #f9f7ff;
+
+  // ===== Primitive: status-04 (gray) =====
+  --status-04-background-strong: #98a2b3;
+  --status-04-background-subtle: #eaecf0;
+  --status-04-background-subtlest: #fafafb;
+
+  // ===== Primitive: status-05 (cyan) =====
+  --status-05-foreground-strong: #16bcdd;
+  --status-05-background-strong: #16bcdd;
+  --status-05-background-medium: #b9ebf5;
+  --status-05-background-subtle: #d0f2f8;
+  --status-05-background-subtlest: #f3fcfd;
+
+  // ===== Primitive: status-06 (indigo) =====
+  --status-06-foreground-strong: #6172f3;
+  --status-06-background-strong: #6172f3;
+  --status-06-background-medium: #d0d5fb;
+  --status-06-background-subtle: #dfe3fd;
+  --status-06-background-subtlest: #f7f8fe;
+
+  // ===== Brand button =====
+  --button-brand-primary-bg-default: #4262ff;
+  --button-brand-primary-bg-hover: #304bd1;
+  --button-brand-primary-bg-disabled: #e9eaf2;
+  --button-brand-primary-text-default: #ffffff;
+  --button-brand-secondary-bg-default: #f6f7ff;
+}
+
+// ===== Dark mode =====
+// The Figma color variables are single-mode (no dark values), while the app's
+// dark theme lives in index.css. So here we only flip the *semantic* surface/
+// text tokens to the app's dark values; primitives stay as designed.
+html[data-theme="dark"] {
+  --ui-text-primary-default: #f2f4fc;
+  --ui-text-secondary-default: #e9eaf2;
+  --ui-card-bg-default: #1a1b1f; // app --background-color-block (dark)
+  --ui-modal-bg-default: #1a1b1f;
+  --ui-page-bg-default: #0a0a0a; // app --background-color (dark)
+  --ui-border-primary-default: #393b42;
+  --ui-border-secondary-default: #393b42;
+}
