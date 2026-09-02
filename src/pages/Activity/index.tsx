@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import cs from "classnames";
 import { GET_ADMIN_ACTIVITY } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
@@ -94,31 +95,32 @@ export function ActivityPage() {
               // actor — то, чем представился источник (человек, правило,
               // джоба); почта есть не всегда, автоматика её не имеет.
               return (
-                <>
-                  {row.userEmail ?? row.actor}
-                  {row.userEmail && <span className={styles.note}> · {row.actor}</span>}
-                </>
+                <div className={styles.cell}>
+                  <span className={styles.cellMain}>{row.userEmail ?? row.actor}</span>
+                  {row.userEmail && <span className={styles.cellSub}>{row.actor}</span>}
+                </div>
               );
             case "what":
               return (
-                <>
-                  {row.action}
-                  <span className={styles.note}> · {row.entityType}</span>
-                </>
+                <div className={styles.cell}>
+                  <span className={styles.cellMain}>{row.action}</span>
+                  <span className={styles.cellSub}>{row.entityType}</span>
+                </div>
               );
-            case "result":
+            case "result": {
+              const counts =
+                row.okCount != null || row.failedCount != null
+                  ? `${row.okCount ?? 0} ok${row.failedCount ? `, ${row.failedCount} failed` : ""}`
+                  : null;
               return (
-                <span className={row.status === "ok" ? styles.ok : styles.bad}>
-                  {row.status}
-                  {(row.okCount != null || row.failedCount != null) && (
-                    <span className={styles.note}>
-                      {" "}
-                      · {row.okCount ?? 0} ok
-                      {row.failedCount ? `, ${row.failedCount} failed` : ""}
-                    </span>
-                  )}
-                </span>
+                <div className={styles.cell}>
+                  <span className={cs(styles.badge, row.status === "ok" ? styles.ok : styles.bad)}>
+                    {row.status}
+                  </span>
+                  {counts && <span className={styles.cellSub}>{counts}</span>}
+                </div>
               );
+            }
             case "source":
               return row.changeSource;
           }
