@@ -14,6 +14,7 @@ import { TaskDetailPage } from "./pages/TaskDetail";
 import { AppDetailPage } from "./pages/AppDetail";
 import { SyncPage } from "./pages/Sync";
 import { ActivityPage } from "./pages/Activity";
+import { ActivityDetailPage } from "./pages/ActivityDetail";
 import { UsersPage } from "./pages/Users";
 import { BillingPage } from "./pages/Billing";
 import { RampUpsPage } from "./pages/RampUps";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/sync" element={<SyncPage />} />
               <Route path="/ramp-ups" element={<RampUpsPage />} />
               <Route path="/activity" element={<ActivityPage />} />
+              <Route path="/activity/:id" element={<ActivityDetailPage />} />
               <Route path="/workspaces" element={<WorkspacesPage />} />
               <Route path="/workspaces/:id" element={<WorkspaceDetailPage />} />
               <Route path="/users" element={<UsersPage />} />

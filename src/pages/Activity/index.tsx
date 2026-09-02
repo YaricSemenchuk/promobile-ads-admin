@@ -103,7 +103,9 @@ export function ActivityPage() {
             case "what":
               return (
                 <div className={styles.cell}>
-                  <span className={styles.cellMain}>{row.action}</span>
+                  <Link className={cs(styles.rowLink, styles.cellMain)} to={`/activity/${row.id}`}>
+                    {row.action}
+                  </Link>
                   <span className={styles.cellSub}>{row.entityType}</span>
                 </div>
               );

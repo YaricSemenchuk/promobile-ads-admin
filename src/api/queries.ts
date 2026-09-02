@@ -390,3 +390,32 @@ export const GET_ADMIN_CONNECTION_KEYWORDS = gql`
     }
   }
 `;
+
+export const GET_ADMIN_ACTIVITY_ENTRY = gql`
+  query AdminActivityEntry($id: String!) {
+    adminActivityEntry(id: $id) {
+      id
+      createdAt
+      workspaceId
+      workspaceName
+      actor
+      userEmail
+      connectionId
+      orgName
+      entityType
+      action
+      changeSource
+      status
+      okCount
+      failedCount
+      changes {
+        subject
+        detail
+      }
+      failures {
+        subject
+        reason
+      }
+    }
+  }
+`;
