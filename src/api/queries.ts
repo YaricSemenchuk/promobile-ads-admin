@@ -374,3 +374,19 @@ export const GET_ADMIN_APP = gql`
     }
   }
 `;
+
+export const GET_ADMIN_CONNECTION_KEYWORDS = gql`
+  query AdminConnectionKeywords($id: String!) {
+    adminConnectionKeywords(id: $id) {
+      keyword
+      matchType
+      status
+      bid
+      country
+      impressions
+      taps
+      installs
+      spend
+    }
+  }
+`;

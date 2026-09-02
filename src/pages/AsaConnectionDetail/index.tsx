@@ -2,9 +2,21 @@ import { useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import cs from "classnames";
-import { GET_ADMIN_ASA_CONNECTION } from "../../api/queries";
+import { GET_ADMIN_ASA_CONNECTION, GET_ADMIN_CONNECTION_KEYWORDS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import styles from "../WorkspaceDetail/styles.module.scss";
+
+interface ConnKeyword {
+  keyword: string;
+  matchType: string | null;
+  status: string | null;
+  bid: string | null;
+  country: string | null;
+  impressions: number;
+  taps: number;
+  installs: number;
+  spend: string;
+}
 
 interface Counts {
   apps: number;
@@ -166,6 +178,72 @@ function RampUpsTable({ rows }: { rows: ConnRampUp[] }) {
   );
 }
 
+const usd = (value: string) => {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(n);
+};
+
+const kwTone = (status: string | null) =>
+  status === "ACTIVE" || status === "RUNNING" ? styles.ok : styles.warn;
+
+function KeywordsPanel({ connectionId }: { connectionId: string }) {
+  const { data, loading, error } = useQuery(GET_ADMIN_CONNECTION_KEYWORDS, {
+    variables: { id: connectionId },
+  });
+
+  if (loading) return <div className={styles.state}>Loading keywords…</div>;
+  if (error) return <div className={styles.state}>Failed to load keywords.</div>;
+
+  const rows: ConnKeyword[] = data?.adminConnectionKeywords ?? [];
+
+  return (
+    <SettingsTable<"keyword" | "status" | "bid" | "impressions" | "taps" | "installs" | "spend", ConnKeyword>
+      columns={[
+        { key: "keyword", label: "Keyword", width: "30%" },
+        { key: "status", label: "Status", width: "14%" },
+        { key: "bid", label: "Bid", width: "10%" },
+        { key: "impressions", label: "Impressions", width: "12%" },
+        { key: "taps", label: "Taps", width: "10%" },
+        { key: "installs", label: "Installs", width: "10%" },
+        { key: "spend", label: "Spend", width: "14%" },
+      ]}
+      rows={rows}
+      rowKey={(r) => `${r.keyword}·${r.matchType}·${r.country}`}
+      emptyText="No keywords synced."
+      renderCell={(r, key) => {
+        switch (key) {
+          case "keyword":
+            return (
+              <div className={styles.cell}>
+                <span className={styles.cellMain}>{r.keyword}</span>
+                <span className={styles.cellSub}>
+                  {[r.matchType, r.country].filter(Boolean).join(" · ") || "—"}
+                </span>
+              </div>
+            );
+          case "status":
+            return r.status ? (
+              <span className={cs(styles.badge, kwTone(r.status))}>{r.status}</span>
+            ) : (
+              "—"
+            );
+          case "bid":
+            return r.bid ? usd(r.bid) : "—";
+          case "impressions":
+            return r.impressions.toLocaleString("en-US");
+          case "taps":
+            return r.taps.toLocaleString("en-US");
+          case "installs":
+            return r.installs.toLocaleString("en-US");
+          case "spend":
+            return usd(r.spend);
+        }
+      }}
+    />
+  );
+}
+
 function TasksTable({ rows }: { rows: ConnTask[] }) {
   return (
     <SettingsTable<"task" | "state" | "progress" | "created", ConnTask>
@@ -204,6 +282,7 @@ function TasksTable({ rows }: { rows: ConnTask[] }) {
 export function AsaConnectionDetailPage() {
   const { id = "" } = useParams();
   const [panel, setPanel] = useState<Panel | null>(null);
+  const [showKeywords, setShowKeywords] = useState(false);
   const { data, loading, error } = useQuery(GET_ADMIN_ASA_CONNECTION, {
     variables: { id },
   });
@@ -288,10 +367,27 @@ export function AsaConnectionDetailPage() {
           ["Last run", dateTime(c.lastRunAt)],
           ["Daily synced through", c.dailySyncedThrough ?? "—"],
           ["Hourly synced through", c.hourlySyncedThrough ?? "—"],
-          ["Keywords", c.lastKeywordCount ?? "—"],
+          [
+            "Keywords",
+            c.lastKeywordCount != null ? (
+              <button
+                key="kw"
+                type="button"
+                className={styles.asLink}
+                onClick={() => setShowKeywords((v) => !v)}
+                aria-expanded={showKeywords}
+              >
+                {c.lastKeywordCount} {showKeywords ? "▲" : "▾"}
+              </button>
+            ) : (
+              "—"
+            ),
+          ],
           ["Last error", c.lastError ? <span key="err" className={styles.bad}>{c.lastError}</span> : "none"],
         ]}
       />
+
+      {showKeywords && <KeywordsPanel connectionId={c.id} />}
 
       <h2 className={styles.sectionTitle}>Manages</h2>
       <Defs
