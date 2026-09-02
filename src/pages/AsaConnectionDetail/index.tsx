@@ -180,7 +180,9 @@ function TasksTable({ rows }: { rows: ConnTask[] }) {
           case "task":
             return (
               <div className={styles.cell}>
-                <span className={styles.cellMain}>{r.description}</span>
+                <Link className={cs(styles.rowLink, styles.cellMain)} to={`/tasks/${r.id}`}>
+                  {r.description}
+                </Link>
                 <span className={styles.cellSub}>{r.kind}</span>
               </div>
             );

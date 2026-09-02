@@ -10,6 +10,7 @@ import { WorkspaceDetailPage } from "./pages/WorkspaceDetail";
 import { AsaConnectionsPage } from "./pages/AsaConnections";
 import { AsaConnectionDetailPage } from "./pages/AsaConnectionDetail";
 import { TasksPage } from "./pages/Tasks";
+import { TaskDetailPage } from "./pages/TaskDetail";
 import { SyncPage } from "./pages/Sync";
 import { ActivityPage } from "./pages/Activity";
 import { UsersPage } from "./pages/Users";
@@ -28,6 +29,7 @@ function App() {
               <Route path="/revenue" element={<RevenuePage />} />
               <Route path="/billing" element={<BillingPage />} />
               <Route path="/tasks" element={<TasksPage />} />
+              <Route path="/tasks/:id" element={<TaskDetailPage />} />
               <Route path="/sync" element={<SyncPage />} />
               <Route path="/ramp-ups" element={<RampUpsPage />} />
               <Route path="/activity" element={<ActivityPage />} />

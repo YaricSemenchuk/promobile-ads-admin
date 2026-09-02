@@ -310,3 +310,28 @@ export const GET_ADMIN_ASA_CONNECTION = gql`
     }
   }
 `;
+
+export const GET_ADMIN_TASK = gql`
+  query AdminTask($id: String!) {
+    adminTask(id: $id) {
+      id
+      workspaceId
+      workspaceName
+      connectionId
+      orgName
+      kind
+      changeSource
+      description
+      state
+      done
+      total
+      error
+      cancelRequested
+      actorEmail
+      heartbeatAt
+      createdAt
+      startedAt
+      finishedAt
+    }
+  }
+`;
