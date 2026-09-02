@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
+import cs from "classnames";
 import { GET_ADMIN_USERS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
@@ -77,16 +78,16 @@ export function UsersPage() {
               // Роль есть только у сотрудников, и это её цветовой смысл:
               // выделен не «важный человек», а доступ ко всей платформе.
               return row.platformRole ? (
-                <span className={styles.warn}>{row.platformRole}</span>
+                <span className={cs(styles.badge, styles.warn)}>{row.platformRole}</span>
               ) : (
                 <span className={styles.note}>customer</span>
               );
             case "workspaces":
               return (
-                <>
-                  {row.ownedWorkspaceCount} owned
-                  <span className={styles.note}> · {row.memberWorkspaceCount} member</span>
-                </>
+                <div className={styles.cell}>
+                  <span>{row.ownedWorkspaceCount} owned</span>
+                  <span className={styles.cellSub}>{row.memberWorkspaceCount} member</span>
+                </div>
               );
             case "created":
               return date(row.createdAt);

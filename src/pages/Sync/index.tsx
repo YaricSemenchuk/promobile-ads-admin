@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import cs from "classnames";
 import { GET_ADMIN_SYNC_STATES } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import styles from "../../styles/list.module.scss";
@@ -92,10 +93,14 @@ export function SyncPage() {
               return row.orgName ?? "—";
             case "status":
               return (
-                <span className={row.connectionStatus === "ACTIVE" ? styles.ok : styles.bad}>
-                  {row.connectionStatus}
-                  {row.lastError && <span className={styles.note}> · {row.lastError}</span>}
-                </span>
+                <div className={styles.cell}>
+                  <span
+                    className={cs(styles.badge, row.connectionStatus === "ACTIVE" ? styles.ok : styles.bad)}
+                  >
+                    {row.connectionStatus}
+                  </span>
+                  {row.lastError && <span className={styles.cellSub}>{row.lastError}</span>}
+                </div>
               );
             case "lastRun":
               return <span className={runTone(row.lastRunAt)}>{ago(row.lastRunAt)}</span>;
@@ -103,10 +108,10 @@ export function SyncPage() {
               // Два горизонта: суточный отчёт и почасовой. Расхождение между
               // ними само по себе диагноз, поэтому показаны оба.
               return (
-                <>
-                  {row.dailySyncedThrough ?? "—"}
-                  <span className={styles.note}> · h {row.hourlySyncedThrough ?? "—"}</span>
-                </>
+                <div className={styles.cell}>
+                  <span>{row.dailySyncedThrough ?? "—"}</span>
+                  <span className={styles.cellSub}>h {row.hourlySyncedThrough ?? "—"}</span>
+                </div>
               );
             case "keywords":
               return row.lastKeywordCount ?? "—";

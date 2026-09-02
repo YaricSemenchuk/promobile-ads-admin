@@ -113,3 +113,44 @@
   color: var(--ui-text-tertiary-default);
   font-weight: 400;
 }
+
+.warn {
+  color: var(--ui-text-primary-warning, #f79009);
+}
+
+// Двухстрочная ячейка и бейдж статуса — те же, что на общих экранах-списках
+// (list.module.scss). Здесь свой модуль, поэтому классы продублированы: вторая
+// строка снимает переполнение колонки длинной причиной отказа или ошибкой.
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.cellMain {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cellSub {
+  font-size: 12px;
+  color: var(--ui-text-tertiary-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}

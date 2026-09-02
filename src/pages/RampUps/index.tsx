@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import cs from "classnames";
 import { GET_ADMIN_RAMP_UPS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
@@ -129,47 +130,52 @@ export function RampUpsPage() {
               );
             case "app":
               return (
-                <>
-                  {row.appName}
-                  <span className={styles.note}> · {row.countries.join(", ") || "no countries"}</span>
-                </>
+                <div className={styles.cell}>
+                  <span className={styles.cellMain}>{row.appName}</span>
+                  <span className={styles.cellSub}>
+                    {row.countries.join(", ") || "no countries"}
+                  </span>
+                </div>
               );
             case "status":
               return (
-                <span className={row.status === "ACTIVE" ? styles.ok : styles.neutral}>
-                  {row.status}
-                  {row.stoppedAt && <span className={styles.note}> · {ago(row.stoppedAt, now)}</span>}
-                </span>
+                <div className={styles.cell}>
+                  <span className={cs(styles.badge, row.status === "ACTIVE" ? styles.ok : styles.neutral)}>
+                    {row.status}
+                  </span>
+                  {row.stoppedAt && <span className={styles.cellSub}>{ago(row.stoppedAt, now)}</span>}
+                </div>
               );
             case "goal":
               // Цель читается только вместе со своим числом: TCPA с целевым
               // CPI и TROAS с целевым ROAS — разные режимы, не подпись.
               return (
-                <>
-                  {row.goal}
-                  <span className={styles.note}>
-                    {" "}
-                    · {row.goal === "TROAS" && row.targetRoas != null
+                <div className={styles.cell}>
+                  <span>{row.goal}</span>
+                  <span className={styles.cellSub}>
+                    {row.goal === "TROAS" && row.targetRoas != null
                       ? `${row.targetRoas}x`
                       : money(row.targetCpi)}
                   </span>
-                </>
+                </div>
               );
             case "budget":
               return (
-                <>
-                  {money(row.dailyBudget)}
-                  <span className={styles.note}> · {row.campaignCount} campaigns</span>
-                </>
+                <div className={styles.cell}>
+                  <span>{money(row.dailyBudget)}</span>
+                  <span className={styles.cellSub}>{row.campaignCount} campaigns</span>
+                </div>
               );
             case "harvest":
               return (
-                <span className={isStale(row, now) ? styles.bad : undefined}>
-                  {ago(row.lastHarvestAt, now)}
+                <div className={styles.cell}>
+                  <span className={isStale(row, now) ? styles.bad : undefined}>
+                    {ago(row.lastHarvestAt, now)}
+                  </span>
                   {row.lastOptimizeAt && (
-                    <span className={styles.note}> · opt {ago(row.lastOptimizeAt, now)}</span>
+                    <span className={styles.cellSub}>opt {ago(row.lastOptimizeAt, now)}</span>
                   )}
-                </span>
+                </div>
               );
           }
         }}
