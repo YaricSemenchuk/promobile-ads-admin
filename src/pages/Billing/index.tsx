@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import cs from "classnames";
 import { GET_ADMIN_BILLING_ACCOUNTS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
@@ -54,6 +55,9 @@ const cardExpiry = (month: number | null, year: number | null) => {
     expired: monthsLeft < 0,
   };
 };
+
+const statusTone = (status: string) =>
+  status === "ACTIVE" ? styles.ok : status === "PAST_DUE" ? styles.bad : styles.warn;
 
 export function BillingPage() {
   const [status, setStatus] = useState("");
@@ -117,11 +121,11 @@ export function BillingPage() {
 
       <SettingsTable<Column, BillingRow>
         columns={[
-          { key: "workspace", label: "Workspace", width: "24%" },
-          { key: "plan", label: "Plan", width: "14%" },
-          { key: "status", label: "Status", width: "18%" },
+          { key: "workspace", label: "Workspace", width: "26%" },
+          { key: "plan", label: "Plan", width: "12%" },
+          { key: "status", label: "Status", width: "20%" },
           { key: "card", label: "Card", width: "14%" },
-          { key: "period", label: "Period / trial", width: "16%" },
+          { key: "period", label: "Period / trial", width: "14%" },
           { key: "revenue", label: "Lifetime", width: "14%" },
         ]}
         rows={rows}
@@ -131,54 +135,66 @@ export function BillingPage() {
           switch (key) {
             case "workspace":
               return (
-                <>
+                <div className={styles.cell}>
                   <Link className={styles.rowLink} to={`/workspaces/${row.workspaceId}`}>
                     {row.workspaceName}
                   </Link>
-                  <span className={styles.note}> · {row.ownerEmail}</span>
-                </>
+                  <span className={styles.cellSub}>{row.ownerEmail}</span>
+                </div>
               );
             case "plan":
               return (
-                <>
-                  {row.plan}
-                  {row.pendingPlan && <span className={styles.note}> → {row.pendingPlan}</span>}
-                </>
+                <div className={styles.cell}>
+                  <span>{row.plan}</span>
+                  {row.pendingPlan && <span className={styles.cellSub}>→ {row.pendingPlan}</span>}
+                </div>
               );
-            case "status":
+            case "status": {
+              // Уточнения живут на второй строке: одной inline-строкой
+              // «ACTIVE · cancelling · dodo: cancelled» они не помещались в
+              // колонку и вылезали на соседнюю.
+              const notes: ReactNode[] = [];
+              if (row.cancelAtPeriodEnd) {
+                notes.push(<span className={styles.bad}>cancelling</span>);
+              }
+              if (row.failedChargeCount > 0) {
+                notes.push(`${row.failedChargeCount} failed charges`);
+              }
+              if (row.dodoStatus && row.dodoStatus !== row.status.toLowerCase()) {
+                notes.push(`dodo: ${row.dodoStatus}`);
+              }
               return (
-                <span
-                  className={
-                    row.status === "ACTIVE"
-                      ? styles.ok
-                      : row.status === "PAST_DUE"
-                        ? styles.bad
-                        : styles.warn
-                  }
-                >
-                  {row.status}
-                  {row.cancelAtPeriodEnd && <span className={styles.bad}> · cancelling</span>}
-                  {row.failedChargeCount > 0 && (
-                    <span className={styles.note}> · {row.failedChargeCount} failed charges</span>
-                  )}
-                  {row.dodoStatus && row.dodoStatus !== row.status.toLowerCase() && (
-                    <span className={styles.note}> · dodo: {row.dodoStatus}</span>
-                  )}
-                </span>
-              );
-            case "card": {
-              const exp = cardExpiry(row.cardExpMonth, row.cardExpYear);
-              if (!row.cardLast4) return <span className={styles.note}>none</span>;
-              return (
-                <>
-                  {row.cardBrand ?? "card"} ····{row.cardLast4}
-                  {exp.label && (
-                    <span className={exp.expired ? styles.bad : exp.expiring ? styles.warn : styles.note}>
-                      {" "}
-                      · {exp.label}
+                <div className={styles.cell}>
+                  <span className={cs(styles.badge, statusTone(row.status))}>{row.status}</span>
+                  {notes.length > 0 && (
+                    <span className={styles.cellSub}>
+                      {notes.map((note, i) => (
+                        <span key={i}>
+                          {i > 0 && " · "}
+                          {note}
+                        </span>
+                      ))}
                     </span>
                   )}
-                </>
+                </div>
+              );
+            }
+            case "card": {
+              if (!row.cardLast4) return <span className={styles.note}>none</span>;
+              const exp = cardExpiry(row.cardExpMonth, row.cardExpYear);
+              return (
+                <div className={styles.cell}>
+                  <span>
+                    {row.cardBrand ?? "card"} ····{row.cardLast4}
+                  </span>
+                  {exp.label && (
+                    <span className={styles.cellSub}>
+                      <span className={exp.expired ? styles.bad : exp.expiring ? styles.warn : undefined}>
+                        {exp.label}
+                      </span>
+                    </span>
+                  )}
+                </div>
               );
             }
             case "period": {
