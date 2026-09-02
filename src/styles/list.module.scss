@@ -108,3 +108,45 @@
   font-size: 12px;
   color: var(--ui-text-tertiary-default);
 }
+
+// Двухстрочная ячейка: главное сверху, уточнение снизу. Таблица держит
+// nowrap и фиксированную раскладку, поэтому длинная inline-строка вида
+// «ACTIVE · cancelling · dodo: cancelled» не переносится, а вылезает на
+// соседнюю колонку. Вторая строка снимает давление вширь, а обрезка с
+// многоточием — страховка на случай совсем длинного уточнения.
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.cellMain {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cellSub {
+  font-size: 12px;
+  color: var(--ui-text-tertiary-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Бейдж статуса. Цвет текста задаёт .ok/.bad/.warn, подложка — тот же цвет,
+// сильно разбавленный: так бейдж переживает смену темы без отдельных токенов
+// (тонированных фонов в системе токенов нет).
+.badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import cs from "classnames";
 import { GET_ADMIN_TASKS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
@@ -157,22 +158,39 @@ export function TasksPage() {
               );
             case "task":
               return (
-                <>
-                  {row.description}
-                  <span className={styles.note}> · {row.kind} · {row.changeSource}</span>
-                </>
+                <div className={styles.cell}>
+                  <span className={styles.cellMain}>{row.description}</span>
+                  <span className={styles.cellSub}>
+                    {row.kind} · {row.changeSource}
+                  </span>
+                </div>
               );
-            case "state":
+            case "state": {
+              // Уточнения — на вторую строку: одной inline-строкой «running ·
+              // cancelling · <error>» они не помещались и наезжали на соседнюю
+              // колонку.
+              const notes: ReactNode[] = [];
+              if (row.cancelRequested) notes.push(<span className={styles.bad}>cancelling</span>);
+              if (row.error) notes.push(row.error);
+              else if (row.failureCount) notes.push(`${row.failureCount} failed`);
               return (
-                <span className={toneOf(row)}>
-                  {isStale(row) ? "stalled" : row.state}
-                  {row.cancelRequested && <span className={styles.note}> · cancelling</span>}
-                  {row.error && <span className={styles.note}> · {row.error}</span>}
-                  {!row.error && row.failureCount ? (
-                    <span className={styles.note}> · {row.failureCount} failed</span>
-                  ) : null}
-                </span>
+                <div className={styles.cell}>
+                  <span className={cs(styles.badge, toneOf(row))}>
+                    {isStale(row) ? "stalled" : row.state}
+                  </span>
+                  {notes.length > 0 && (
+                    <span className={styles.cellSub}>
+                      {notes.map((note, i) => (
+                        <span key={i}>
+                          {i > 0 && " · "}
+                          {note}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </div>
               );
+            }
             case "progress":
               return (
                 <>
