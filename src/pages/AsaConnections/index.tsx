@@ -130,7 +130,9 @@ export function AsaConnectionsPage() {
             case "org":
               return (
                 <div className={styles.cell}>
-                  <span className={styles.cellMain}>{row.orgName ?? "—"}</span>
+                  <Link className={cs(styles.rowLink, styles.cellMain)} to={`/asa-connections/${row.id}`}>
+                    {row.orgName ?? "—"}
+                  </Link>
                   <span className={styles.cellSub}>{row.orgId}</span>
                 </div>
               );

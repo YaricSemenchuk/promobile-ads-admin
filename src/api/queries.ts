@@ -247,3 +247,41 @@ export const GET_ADMIN_ASA_CONNECTIONS = gql`
     }
   }
 `;
+
+export const GET_ADMIN_ASA_CONNECTION = gql`
+  query AdminAsaConnection($id: String!) {
+    adminAsaConnection(id: $id) {
+      id
+      workspaceId
+      workspaceName
+      ownerEmail
+      orgId
+      orgName
+      adAccountId
+      status
+      apiVersion
+      currency
+      timeZone
+      paymentModel
+      roleNames
+      basicDetectedAt
+      lastSyncedAt
+      lastError
+      createdAt
+      updatedAt
+      dailySyncedThrough
+      hourlySyncedThrough
+      lastRunAt
+      lastKeywordCount
+      counts {
+        apps
+        rules
+        rampUps
+        tasks
+        budgetOrders
+        customReports
+        activityEntries
+      }
+    }
+  }
+`;

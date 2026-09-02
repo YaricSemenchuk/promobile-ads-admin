@@ -8,6 +8,7 @@ import { RevenuePage } from "./pages/Revenue";
 import { WorkspacesPage } from "./pages/Workspaces";
 import { WorkspaceDetailPage } from "./pages/WorkspaceDetail";
 import { AsaConnectionsPage } from "./pages/AsaConnections";
+import { AsaConnectionDetailPage } from "./pages/AsaConnectionDetail";
 import { TasksPage } from "./pages/Tasks";
 import { SyncPage } from "./pages/Sync";
 import { ActivityPage } from "./pages/Activity";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/workspaces/:id" element={<WorkspaceDetailPage />} />
               <Route path="/users" element={<UsersPage />} />
               <Route path="/asa-connections" element={<AsaConnectionsPage />} />
+              <Route path="/asa-connections/:id" element={<AsaConnectionDetailPage />} />
             </Route>
           </Route>
         </Routes>
