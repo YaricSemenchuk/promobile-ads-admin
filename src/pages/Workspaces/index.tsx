@@ -74,6 +74,7 @@ export function WorkspacesPage() {
             ]}
             rows={rows}
             rowKey={(row) => String(row.id)}
+            rowHref={(row) => `/workspaces/${row.id}`}
             emptyText="No workspaces found."
             renderCell={(row, key) => {
               switch (key) {

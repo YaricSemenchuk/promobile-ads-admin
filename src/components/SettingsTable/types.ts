@@ -45,4 +45,10 @@ export type SettingsTableProps<K extends string, R> = {
   rowHeight?: number;
   emptyText?: string;
   className?: string;
+  /**
+   * Куда ведёт клик по строке. Вернёт undefined — строка некликабельна.
+   * Ссылки и кнопки внутри ячеек продолжают работать сами (в т.ч. средний
+   * щелчок), навигация по строке их не перехватывает.
+   */
+  rowHref?: (row: R) => string | undefined;
 };
