@@ -1,8 +1,9 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import cs from "classnames";
 import { GET_ADMIN_ASA_CONNECTION } from "../../api/queries";
+import { SettingsTable } from "../../components/SettingsTable";
 import styles from "../WorkspaceDetail/styles.module.scss";
 
 interface Counts {
@@ -13,6 +14,34 @@ interface Counts {
   budgetOrders: number;
   customReports: number;
   activityEntries: number;
+}
+
+interface ConnApp {
+  adamId: string;
+  title: string | null;
+  store: string | null;
+  country: string | null;
+  icon: string | null;
+}
+
+interface ConnRampUp {
+  id: string;
+  appName: string;
+  status: string;
+  goal: string;
+  dailyBudget: number;
+  countries: string[];
+  createdAt: string;
+}
+
+interface ConnTask {
+  id: string;
+  kind: string;
+  state: string;
+  description: string;
+  done: number;
+  total: number;
+  createdAt: string;
 }
 
 interface ConnectionDetail {
@@ -39,13 +68,26 @@ interface ConnectionDetail {
   lastRunAt: string | null;
   lastKeywordCount: number | null;
   counts: Counts;
+  apps: ConnApp[];
+  rampUps: ConnRampUp[];
+  tasks: ConnTask[];
 }
+
+type Panel = "apps" | "rampUps" | "tasks";
 
 const dateTime = (iso: string | null) =>
   iso ? new Date(iso).toLocaleString("en-US") : "—";
 
-const statusTone = (status: string) =>
+const date = (iso: string) => new Date(iso).toLocaleDateString("en-US");
+
+const money = (value: number) =>
+  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
+
+const connTone = (status: string) =>
   status === "ACTIVE" ? styles.ok : status === "PENDING" ? styles.warn : styles.bad;
+
+const stateTone = (state: string) =>
+  state === "done" ? styles.ok : state === "failed" ? styles.bad : styles.warn;
 
 function Defs({ rows }: { rows: [string, ReactNode][] }) {
   return (
@@ -60,8 +102,103 @@ function Defs({ rows }: { rows: [string, ReactNode][] }) {
   );
 }
 
+function AppsTable({ rows }: { rows: ConnApp[] }) {
+  return (
+    <SettingsTable<"app" | "store" | "country", ConnApp>
+      columns={[
+        { key: "app", label: "App", width: "56%" },
+        { key: "store", label: "Store", width: "24%" },
+        { key: "country", label: "Country", width: "20%" },
+      ]}
+      rows={rows}
+      rowKey={(r) => r.adamId}
+      emptyText="No linked apps."
+      renderCell={(r, key) => {
+        switch (key) {
+          case "app":
+            return (
+              <div className={styles.cell}>
+                <span className={styles.cellMain}>{r.title ?? "—"}</span>
+                <span className={styles.cellSub}>{r.adamId}</span>
+              </div>
+            );
+          case "store":
+            return r.store ?? "—";
+          case "country":
+            return r.country ? r.country.toUpperCase() : "—";
+        }
+      }}
+    />
+  );
+}
+
+function RampUpsTable({ rows }: { rows: ConnRampUp[] }) {
+  return (
+    <SettingsTable<"app" | "status" | "goal" | "budget" | "created", ConnRampUp>
+      columns={[
+        { key: "app", label: "App", width: "34%" },
+        { key: "status", label: "Status", width: "16%" },
+        { key: "goal", label: "Goal", width: "14%" },
+        { key: "budget", label: "Daily budget", width: "18%" },
+        { key: "created", label: "Created", width: "18%" },
+      ]}
+      rows={rows}
+      rowKey={(r) => r.id}
+      emptyText="No ramp-ups."
+      renderCell={(r, key) => {
+        switch (key) {
+          case "app":
+            return <span className={styles.cellMain}>{r.appName}</span>;
+          case "status":
+            return <span className={cs(styles.badge, connTone(r.status))}>{r.status}</span>;
+          case "goal":
+            return r.goal;
+          case "budget":
+            return money(r.dailyBudget);
+          case "created":
+            return date(r.createdAt);
+        }
+      }}
+    />
+  );
+}
+
+function TasksTable({ rows }: { rows: ConnTask[] }) {
+  return (
+    <SettingsTable<"task" | "state" | "progress" | "created", ConnTask>
+      columns={[
+        { key: "task", label: "Task", width: "44%" },
+        { key: "state", label: "State", width: "18%" },
+        { key: "progress", label: "Progress", width: "18%" },
+        { key: "created", label: "Created", width: "20%" },
+      ]}
+      rows={rows}
+      rowKey={(r) => r.id}
+      emptyText="No tasks."
+      renderCell={(r, key) => {
+        switch (key) {
+          case "task":
+            return (
+              <div className={styles.cell}>
+                <span className={styles.cellMain}>{r.description}</span>
+                <span className={styles.cellSub}>{r.kind}</span>
+              </div>
+            );
+          case "state":
+            return <span className={cs(styles.badge, stateTone(r.state))}>{r.state}</span>;
+          case "progress":
+            return `${r.done} / ${r.total}`;
+          case "created":
+            return date(r.createdAt);
+        }
+      }}
+    />
+  );
+}
+
 export function AsaConnectionDetailPage() {
   const { id = "" } = useParams();
+  const [panel, setPanel] = useState<Panel | null>(null);
   const { data, loading, error } = useQuery(GET_ADMIN_ASA_CONNECTION, {
     variables: { id },
   });
@@ -71,6 +208,14 @@ export function AsaConnectionDetailPage() {
 
   const c: ConnectionDetail | null = data?.adminAsaConnection ?? null;
   if (!c) return <div className={styles.state}>Connection not found.</div>;
+
+  const toggle = (next: Panel) => setPanel((cur) => (cur === next ? null : next));
+
+  const countTiles: { key: Panel; label: string; value: number }[] = [
+    { key: "apps", label: "Apps", value: c.counts.apps },
+    { key: "rampUps", label: "Ramp-ups", value: c.counts.rampUps },
+    { key: "tasks", label: "Tasks", value: c.counts.tasks },
+  ];
 
   return (
     <div>
@@ -95,22 +240,26 @@ export function AsaConnectionDetailPage() {
         <div className={styles.tile}>
           <div className={styles.tileLabel}>Status</div>
           <div className={styles.tileValue}>
-            <span className={cs(styles.badge, statusTone(c.status))}>{c.status}</span>
+            <span className={cs(styles.badge, connTone(c.status))}>{c.status}</span>
           </div>
         </div>
-        <div className={styles.tile}>
-          <div className={styles.tileLabel}>Apps</div>
-          <div className={styles.tileValue}>{c.counts.apps}</div>
-        </div>
-        <div className={styles.tile}>
-          <div className={styles.tileLabel}>Ramp-ups</div>
-          <div className={styles.tileValue}>{c.counts.rampUps}</div>
-        </div>
-        <div className={styles.tile}>
-          <div className={styles.tileLabel}>Tasks</div>
-          <div className={styles.tileValue}>{c.counts.tasks}</div>
-        </div>
+        {countTiles.map((t) => (
+          <button
+            key={t.key}
+            type="button"
+            className={cs(styles.tile, styles.tileButton, { [styles.tileActive]: panel === t.key })}
+            onClick={() => toggle(t.key)}
+            aria-expanded={panel === t.key}
+          >
+            <div className={styles.tileLabel}>{t.label}</div>
+            <div className={styles.tileValue}>{t.value}</div>
+          </button>
+        ))}
       </div>
+
+      {panel === "apps" && <AppsTable rows={c.apps} />}
+      {panel === "rampUps" && <RampUpsTable rows={c.rampUps} />}
+      {panel === "tasks" && <TasksTable rows={c.tasks} />}
 
       <h2 className={styles.sectionTitle}>Connection</h2>
       <Defs

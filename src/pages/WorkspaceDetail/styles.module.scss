@@ -205,3 +205,20 @@
     text-decoration: underline;
   }
 }
+
+// Плитка-кнопка: по клику разворачивает список под собой (apps/ramp-ups/tasks).
+.tileButton {
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  width: 100%;
+
+  &:hover {
+    border-color: var(--blue-background-strong, #4262ff);
+  }
+}
+
+.tileActive {
+  border-color: var(--blue-background-strong, #4262ff);
+  box-shadow: 0 0 0 1px var(--blue-background-strong, #4262ff);
+}

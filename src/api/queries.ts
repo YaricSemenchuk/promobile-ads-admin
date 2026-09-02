@@ -282,6 +282,31 @@ export const GET_ADMIN_ASA_CONNECTION = gql`
         customReports
         activityEntries
       }
+      apps {
+        adamId
+        title
+        store
+        country
+        icon
+      }
+      rampUps {
+        id
+        appName
+        status
+        goal
+        dailyBudget
+        countries
+        createdAt
+      }
+      tasks {
+        id
+        kind
+        state
+        description
+        done
+        total
+        createdAt
+      }
     }
   }
 `;
