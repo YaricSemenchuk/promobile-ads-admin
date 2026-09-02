@@ -2,15 +2,19 @@
 // экранов (--ui-*), поэтому тема переключается без переопределений.
 
 .wrap {
-  // Скролл — страховка для узких экранов: на рабочей ширине колонки заданы
-  // так, что таблица укладывается целиком.
-  overflow-x: auto;
   // Таблица — отдельная белая карточка на фоне страницы. Токены те же, что у
   // карточек на Revenue, поэтому вид и тема совпадают. Скругление обрезает углы
   // таблицы, а вертикальные разделители строк остаются внутри.
   background: var(--ui-card-bg-default, #fff);
   border: 1px solid var(--ui-border-secondary-default);
   border-radius: var(--ds-radius-control-small, 8px);
+  // Карточка сама себе область прокрутки: тело листается внутри, а шапка
+  // закреплена (см. thead ниже). Высота считается от вьюпорта, а не от
+  // родителя, поэтому короткая таблица остаётся низкой, а длинная упирается в
+  // потолок и начинает скроллиться. overflow по обеим осям: вниз — тело,
+  // вбок — узкие экраны.
+  max-height: calc(100vh - 210px);
+  overflow: auto;
 }
 
 .table {
@@ -27,8 +31,16 @@
     font-weight: 400;
     font-size: 14px;
     color: var(--ui-text-secondary-default);
-    border-bottom: 1px solid var(--ui-border-secondary-default);
     white-space: nowrap;
+    // Закреплённая шапка. Свой фон обязателен — иначе прокручиваемые строки
+    // просвечивают под ней. Разделитель через inset-тень, а не border-bottom:
+    // при border-collapse граница у sticky-ячейки во время скролла пропадает,
+    // а тень держится.
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--ui-card-bg-default, #fff);
+    box-shadow: inset 0 -1px 0 var(--ui-border-secondary-default);
   }
 
   td {
@@ -36,6 +48,12 @@
     border-bottom: 1px solid var(--ui-border-secondary-default);
     vertical-align: middle;
     white-space: nowrap;
+    // Одиночное длинное значение (например почта владельца на Workspaces)
+    // раньше вылезало на соседнюю колонку. При фиксированной раскладке ширина
+    // ячейки задана, так что лишнее просто прячется под многоточие. Ячейки с
+    // .cell режут вторую строку сами — там overflow не мешает.
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   // Крайние колонки прижаты к краям карточки — как в макете.
