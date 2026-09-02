@@ -159,7 +159,9 @@ export function TasksPage() {
             case "task":
               return (
                 <div className={styles.cell}>
-                  <span className={styles.cellMain}>{row.description}</span>
+                  <Link className={cs(styles.rowLink, styles.cellMain)} to={`/tasks/${row.id}`}>
+                    {row.description}
+                  </Link>
                   <span className={styles.cellSub}>
                     {row.kind} · {row.changeSource}
                   </span>
