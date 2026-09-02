@@ -224,3 +224,26 @@ export const GET_ADMIN_RAMP_UPS = gql`
     }
   }
 `;
+
+export const GET_ADMIN_ASA_CONNECTIONS = gql`
+  query AdminAsaConnections($status: String, $search: String, $limit: Int, $offset: Int) {
+    adminAsaConnections(status: $status, search: $search, limit: $limit, offset: $offset) {
+      total
+      rows {
+        id
+        workspaceId
+        workspaceName
+        ownerEmail
+        orgId
+        orgName
+        status
+        apiVersion
+        currency
+        timeZone
+        lastSyncedAt
+        lastError
+        createdAt
+      }
+    }
+  }
+`;
