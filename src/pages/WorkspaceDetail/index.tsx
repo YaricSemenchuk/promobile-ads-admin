@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import cs from "classnames";
 import { GET_ADMIN_WORKSPACE } from "../../api/queries";
 import { loginAsClient } from "../../api/auth";
 import { SettingsTable } from "../../components/SettingsTable";
@@ -190,23 +191,26 @@ export function WorkspaceDetailPage() {
             case "period":
               return `${date(row.periodStart)} — ${date(row.periodEnd)}`;
             case "description":
-              return row.description;
+              return <span className={styles.cellMain}>{row.description}</span>;
             case "kind":
               return row.kind;
             case "spend":
               return money(row.adSpend, row.currency);
             case "total":
               return money(row.totalAmount, row.currency);
-            case "status":
+            case "status": {
+              // Причина отказа и номер попытки — на вторую строку: рядом со
+              // статусом одной строкой они переполняли колонку.
+              const notes: string[] = [];
+              if (row.failureReason) notes.push(row.failureReason);
+              if (row.attempt > 0) notes.push(`retry ${row.attempt}`);
               return (
-                <span className={toneOf(row.status)}>
-                  {row.status}
-                  {/* Причина отказа стоит рядом со статусом: искать её в
-                      отдельной колонке, пустой в 99% строк, незачем. */}
-                  {row.failureReason && <span className={styles.note}> · {row.failureReason}</span>}
-                  {row.attempt > 0 && <span className={styles.note}> · retry {row.attempt}</span>}
-                </span>
+                <div className={styles.cell}>
+                  <span className={cs(styles.badge, toneOf(row.status))}>{row.status}</span>
+                  {notes.length > 0 && <span className={styles.cellSub}>{notes.join(" · ")}</span>}
+                </div>
               );
+            }
           }
         }}
       />
@@ -227,17 +231,17 @@ export function WorkspaceDetailPage() {
           switch (key) {
             case "org":
               return (
-                <>
-                  {row.orgName ?? "—"}
-                  <span className={styles.note}> · {row.orgId}</span>
-                </>
+                <div className={styles.cell}>
+                  <span className={styles.cellMain}>{row.orgName ?? "—"}</span>
+                  <span className={styles.cellSub}>{row.orgId}</span>
+                </div>
               );
             case "status":
               return (
-                <span className={toneOf(row.status)}>
-                  {row.status}
-                  {row.lastError && <span className={styles.note}> · {row.lastError}</span>}
-                </span>
+                <div className={styles.cell}>
+                  <span className={cs(styles.badge, toneOf(row.status))}>{row.status}</span>
+                  {row.lastError && <span className={styles.cellSub}>{row.lastError}</span>}
+                </div>
               );
             case "api":
               return row.apiVersion;
