@@ -35,7 +35,7 @@ export function RevenuePage() {
         </div>
       </div>
 
-      <h2 className={styles.sectionTitle}>Monthly revenue (last 13 months)</h2>
+      <h2 className={styles.sectionTitle}>Monthly revenue (last 12 months)</h2>
       <div className={styles.chart}>
         {overview.monthlyRevenue.map((row: { month: string; total: number; chargeCount: number }) => (
           <div key={row.month} className={styles.bar} title={`${money(row.total)} · ${row.chargeCount} charges`}>
