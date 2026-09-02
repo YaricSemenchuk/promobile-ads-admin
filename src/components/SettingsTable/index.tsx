@@ -1,4 +1,5 @@
 import cs from "classnames";
+import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.scss";
 import { SortArrowsIcon } from "./icons";
 import type { SettingsTableColumn, SettingsTableProps } from "./types";
@@ -28,7 +29,9 @@ export function SettingsTable<K extends string, R>({
   rowHeight = 64,
   emptyText = "Nothing here yet.",
   className,
+  rowHref,
 }: SettingsTableProps<K, R>) {
+  const navigate = useNavigate();
   const sortable = (c: SettingsTableColumn<K>) =>
     Boolean(c.label) &&
     !c.header &&
@@ -71,13 +74,32 @@ export function SettingsTable<K extends string, R>({
         </thead>
 
         <tbody>
-          {rows.map((row) => (
-            <tr key={rowKey(row)} style={{ height: rowHeight }}>
-              {columns.map((c) => (
-                <td key={c.key}>{renderCell(row, c.key)}</td>
-              ))}
-            </tr>
-          ))}
+          {rows.map((row) => {
+            const href = rowHref?.(row);
+            return (
+              <tr
+                key={rowKey(row)}
+                style={{ height: rowHeight }}
+                className={cs({ [styles.clickable]: Boolean(href) })}
+                // Клик по строке ведёт в деталь. Клик по ссылке или кнопке
+                // внутри ячейки обрабатывается ими самими — тогда строку не
+                // трогаем, чтобы средний щелчок по имени по-прежнему открывал
+                // новую вкладку.
+                onClick={
+                  href
+                    ? (e) => {
+                        if ((e.target as HTMLElement).closest("a,button")) return;
+                        navigate(href);
+                      }
+                    : undefined
+                }
+              >
+                {columns.map((c) => (
+                  <td key={c.key}>{renderCell(row, c.key)}</td>
+                ))}
+              </tr>
+            );
+          })}
 
           {!rows.length && (
             <tr>

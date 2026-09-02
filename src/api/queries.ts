@@ -283,6 +283,7 @@ export const GET_ADMIN_ASA_CONNECTION = gql`
         activityEntries
       }
       apps {
+        id
         adamId
         title
         store
@@ -332,6 +333,44 @@ export const GET_ADMIN_TASK = gql`
       createdAt
       startedAt
       finishedAt
+    }
+  }
+`;
+
+export const GET_ADMIN_APP = gql`
+  query AdminApp($id: Int!) {
+    adminApp(id: $id) {
+      id
+      store
+      appId
+      adamId
+      title
+      icon
+      ownerEmail
+      country
+      language
+      developer
+      price
+      score
+      reviewsCount
+      averageReviewsScore
+      version
+      size
+      status
+      availability
+      deletionStatus
+      createdAt
+      updatedAt
+      lastAccessedAt
+      verifiedAt
+      counts {
+        keywords
+        keywordsOrders
+        ratingsOrders
+        reviewsOrders
+        directOrders
+        asaLinks
+      }
     }
   }
 `;

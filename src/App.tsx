@@ -11,6 +11,7 @@ import { AsaConnectionsPage } from "./pages/AsaConnections";
 import { AsaConnectionDetailPage } from "./pages/AsaConnectionDetail";
 import { TasksPage } from "./pages/Tasks";
 import { TaskDetailPage } from "./pages/TaskDetail";
+import { AppDetailPage } from "./pages/AppDetail";
 import { SyncPage } from "./pages/Sync";
 import { ActivityPage } from "./pages/Activity";
 import { UsersPage } from "./pages/Users";
@@ -38,6 +39,7 @@ function App() {
               <Route path="/users" element={<UsersPage />} />
               <Route path="/asa-connections" element={<AsaConnectionsPage />} />
               <Route path="/asa-connections/:id" element={<AsaConnectionDetailPage />} />
+              <Route path="/apps/:id" element={<AppDetailPage />} />
             </Route>
           </Route>
         </Routes>

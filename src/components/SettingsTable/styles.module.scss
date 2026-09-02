@@ -106,3 +106,13 @@
   text-align: center;
   color: var(--ui-text-secondary-default);
 }
+
+// Кликабельная строка: вся строка ведёт в деталь. Курсор и подсветка при
+// наведении подсказывают это; сами ссылки внутри работают как раньше.
+.clickable {
+  cursor: pointer;
+
+  &:hover td {
+    background: var(--ui-modal-bg-hover, rgba(0, 0, 0, 0.03));
+  }
+}

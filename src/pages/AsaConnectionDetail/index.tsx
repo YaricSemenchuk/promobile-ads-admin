@@ -17,6 +17,7 @@ interface Counts {
 }
 
 interface ConnApp {
+  id: number;
   adamId: string;
   title: string | null;
   store: string | null;
@@ -118,7 +119,9 @@ function AppsTable({ rows }: { rows: ConnApp[] }) {
           case "app":
             return (
               <div className={styles.cell}>
-                <span className={styles.cellMain}>{r.title ?? "—"}</span>
+                <Link className={cs(styles.rowLink, styles.cellMain)} to={`/apps/${r.id}`}>
+                  {r.title ?? "—"}
+                </Link>
                 <span className={styles.cellSub}>{r.adamId}</span>
               </div>
             );
