@@ -90,7 +90,13 @@ export function SyncPage() {
                 </Link>
               );
             case "org":
-              return row.orgName ?? "—";
+              return row.orgName ? (
+                <Link className={styles.rowLink} to={`/asa-connections/${row.connectionId}`}>
+                  {row.orgName}
+                </Link>
+              ) : (
+                "—"
+              );
             case "status":
               return (
                 <div className={styles.cell}>
