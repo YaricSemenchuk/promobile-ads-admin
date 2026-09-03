@@ -15,6 +15,8 @@ interface BillingRow {
   plan: string;
   status: string;
   pendingPlan: string | null;
+  paymentMethod: string;
+  legalName: string | null;
   dodoStatus: string | null;
   cardBrand: string | null;
   cardLast4: string | null;
@@ -124,7 +126,7 @@ export function BillingPage() {
           { key: "workspace", label: "Workspace", width: "26%" },
           { key: "plan", label: "Plan", width: "12%" },
           { key: "status", label: "Status", width: "20%" },
-          { key: "card", label: "Card", width: "14%" },
+          { key: "card", label: "Payment", width: "14%" },
           { key: "period", label: "Period / trial", width: "14%" },
           { key: "revenue", label: "Lifetime", width: "14%" },
         ]}
@@ -180,6 +182,15 @@ export function BillingPage() {
               );
             }
             case "card": {
+              // Оплата по счёту: карты может не быть вовсе, платит юрлицо.
+              if (row.paymentMethod === "INVOICE") {
+                return (
+                  <div className={styles.cell}>
+                    <span>invoice</span>
+                    {row.legalName && <span className={styles.cellSub}>{row.legalName}</span>}
+                  </div>
+                );
+              }
               if (!row.cardLast4) return <span className={styles.note}>none</span>;
               const exp = cardExpiry(row.cardExpMonth, row.cardExpYear);
               return (

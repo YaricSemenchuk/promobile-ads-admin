@@ -73,6 +73,8 @@ export const GET_ADMIN_WORKSPACE = gql`
         failureReason
         attempt
         chargedAt
+        invoiceNumber
+        dueAt
       }
       connections {
         id
@@ -184,6 +186,8 @@ export const GET_ADMIN_BILLING_ACCOUNTS = gql`
         plan
         status
         pendingPlan
+        paymentMethod
+        legalName
         dodoStatus
         cardBrand
         cardLast4
@@ -387,6 +391,19 @@ export const GET_ADMIN_CONNECTION_KEYWORDS = gql`
       taps
       installs
       spend
+    }
+  }
+`;
+
+/** Перевод по счёту пришёл: счёт оплачен, аккаунт снова в строю. */
+export const MARK_INVOICE_PAID = gql`
+  mutation AdminMarkInvoicePaid($chargeId: Int!, $paidAt: String) {
+    adminMarkInvoicePaid(chargeId: $chargeId, paidAt: $paidAt) {
+      id
+      status
+      chargedAt
+      invoiceNumber
+      dueAt
     }
   }
 `;

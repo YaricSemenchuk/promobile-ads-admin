@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import cs from "classnames";
-import { GET_ADMIN_WORKSPACE } from "../../api/queries";
+import { GET_ADMIN_WORKSPACE, MARK_INVOICE_PAID } from "../../api/queries";
 import { loginAsClient } from "../../api/auth";
 import { SettingsTable } from "../../components/SettingsTable";
 import styles from "./styles.module.scss";
@@ -35,6 +35,8 @@ interface Charge {
   failureReason: string | null;
   attempt: number;
   chargedAt: string | null;
+  invoiceNumber: string | null;
+  dueAt: string | null;
 }
 
 interface Connection {
@@ -73,10 +75,19 @@ export function WorkspaceDetailPage() {
   const [impersonating, setImpersonating] = useState(false);
   const [impersonateError, setImpersonateError] = useState<string | null>(null);
 
-  const { data, loading, error } = useQuery(GET_ADMIN_WORKSPACE, {
+  const { data, loading, error, refetch } = useQuery(GET_ADMIN_WORKSPACE, {
     variables: { id: workspaceId },
     skip: !Number.isFinite(workspaceId),
   });
+
+  // Единственная запись на экране: перевод по счёту виден только в банке, и
+  // отметить его может только человек. Список перечитываем целиком — вместе
+  // со счётом меняется и статус аккаунта в плитке.
+  const [markPaid, { loading: marking, error: markError }] = useMutation(
+    MARK_INVOICE_PAID,
+    { onCompleted: () => refetch() },
+  );
+  const [confirmId, setConfirmId] = useState<number | null>(null);
 
   if (!Number.isFinite(workspaceId)) return <div className={styles.state}>Bad workspace id.</div>;
   if (loading) return <div className={styles.state}>Loading…</div>;
@@ -174,6 +185,7 @@ export function WorkspaceDetailPage() {
       </div>
 
       <h2 className={styles.sectionTitle}>Billing history</h2>
+      {markError && <div className={styles.error}>Could not mark the invoice as paid: {markError.message}</div>}
       <SettingsTable<ChargeColumn, Charge>
         columns={[
           { key: "period", label: "Period", width: "18%" },
@@ -204,10 +216,44 @@ export function WorkspaceDetailPage() {
               const notes: string[] = [];
               if (row.failureReason) notes.push(row.failureReason);
               if (row.attempt > 0) notes.push(`retry ${row.attempt}`);
+              // Счёт: номер и срок; просроченный — PENDING после dueAt.
+              const invoice = Boolean(row.invoiceNumber);
+              const overdue =
+                invoice && row.status === "PENDING" && row.dueAt != null && new Date(row.dueAt) < new Date();
+              if (invoice) notes.push(`${row.invoiceNumber} · due ${date(row.dueAt)}`);
+              const awaiting = invoice && row.status === "PENDING";
               return (
                 <div className={styles.cell}>
-                  <span className={cs(styles.badge, toneOf(row.status))}>{row.status}</span>
+                  <span className={cs(styles.badge, overdue ? styles.bad : toneOf(row.status))}>
+                    {overdue ? "OVERDUE" : row.status}
+                  </span>
                   {notes.length > 0 && <span className={styles.cellSub}>{notes.join(" · ")}</span>}
+                  {awaiting &&
+                    (confirmId === row.id ? (
+                      <span className={styles.cellSub}>
+                        <button
+                          type="button"
+                          className={styles.asLink}
+                          disabled={marking}
+                          onClick={() => {
+                            setConfirmId(null);
+                            void markPaid({ variables: { chargeId: row.id } });
+                          }}
+                        >
+                          {marking ? "Saving…" : "Confirm payment received"}
+                        </button>
+                        {" · "}
+                        <button type="button" className={styles.asLink} onClick={() => setConfirmId(null)}>
+                          Cancel
+                        </button>
+                      </span>
+                    ) : (
+                      <span className={styles.cellSub}>
+                        <button type="button" className={styles.asLink} onClick={() => setConfirmId(row.id)}>
+                          Mark paid
+                        </button>
+                      </span>
+                    ))}
                 </div>
               );
             }
