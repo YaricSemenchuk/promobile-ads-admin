@@ -222,11 +222,13 @@ export function WorkspaceDetailPage() {
                 invoice && row.status === "PENDING" && row.dueAt != null && new Date(row.dueAt) < new Date();
               if (invoice) notes.push(`${row.invoiceNumber} · due ${date(row.dueAt)}`);
               const awaiting = invoice && row.status === "PENDING";
+              // В базе оплаченный счёт — тот же SUCCEEDED, что и списание с
+              // карты (статус один на всю billing_charges); для счёта слово
+              // «paid» точнее, и так же его видит клиент в History.
+              const label = overdue ? "OVERDUE" : invoice && row.status === "SUCCEEDED" ? "PAID" : row.status;
               return (
                 <div className={styles.cell}>
-                  <span className={cs(styles.badge, overdue ? styles.bad : toneOf(row.status))}>
-                    {overdue ? "OVERDUE" : row.status}
-                  </span>
+                  <span className={cs(styles.badge, overdue ? styles.bad : toneOf(row.status))}>{label}</span>
                   {notes.length > 0 && <span className={styles.cellSub}>{notes.join(" · ")}</span>}
                   {awaiting &&
                     (confirmId === row.id ? (
