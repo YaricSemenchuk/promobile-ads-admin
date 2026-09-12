@@ -238,3 +238,132 @@
     text-decoration: underline;
   }
 }
+
+// -- Триал (M7): карточка выдачи/продления/завершения и его история. --------
+.trialCard {
+  background: var(--ui-card-bg-default, #fff);
+  border: 1px solid var(--ui-border-secondary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.trialForm,
+.trialActions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trialActions {
+  margin-top: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--ui-text-secondary-default);
+}
+
+.inlineRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.input,
+.select,
+.inputNarrow {
+  padding: 8px 12px;
+  border: 1px solid var(--ui-border-primary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  background: var(--ui-card-bg-default);
+  color: var(--ui-text-primary-default);
+  font: inherit;
+  font-size: 14px;
+}
+
+.input,
+.select {
+  width: 100%;
+  max-width: 420px;
+}
+
+.inputNarrow {
+  width: 84px;
+}
+
+.preset {
+  padding: 8px 14px;
+  border: 1px solid var(--ui-border-primary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  background: var(--ui-card-bg-default);
+  color: var(--ui-text-primary-default);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--blue-background-strong, #4262ff);
+  }
+}
+
+.presetActive {
+  border-color: var(--blue-background-strong, #4262ff);
+  color: var(--blue-background-strong, #4262ff);
+  box-shadow: 0 0 0 1px var(--blue-background-strong, #4262ff);
+}
+
+.primaryButton,
+.secondaryButton,
+.dangerButton {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border-radius: var(--ds-radius-control-small, 8px);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.primaryButton {
+  background: var(--blue-background-strong, #4262ff);
+  color: #fff;
+}
+
+.secondaryButton {
+  background: var(--ui-card-bg-default);
+  border-color: var(--ui-border-primary-default);
+  color: var(--ui-text-primary-default);
+
+  &:hover {
+    border-color: var(--blue-background-strong, #4262ff);
+    color: var(--blue-background-strong, #4262ff);
+  }
+}
+
+.dangerButton {
+  background: var(--ui-card-bg-default);
+  border-color: var(--ui-text-primary-error, #f04438);
+  color: var(--ui-text-primary-error, #f04438);
+}
+
+.warnBanner {
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: var(--ds-radius-control-small, 8px);
+  font-size: 13px;
+  color: var(--ui-text-primary-warning, #f79009);
+  background: color-mix(in srgb, var(--ui-text-primary-warning, #f79009) 12%, transparent);
+}

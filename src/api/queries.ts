@@ -87,9 +87,82 @@ export const GET_ADMIN_WORKSPACE = gql`
         lastSyncedAt
         lastError
       }
+      trials {
+        id
+        reason
+        comment
+        grantedByEmail
+        startsAt
+        expiresAt
+        status
+        endedAt
+        createdAt
+      }
     }
   }
   ${WORKSPACE_SUMMARY_FIELDS}
+`;
+
+export const GET_ADMIN_TRIAL_ORG_WARNING = gql`
+  query AdminTrialOrgWarning($workspaceId: Int!) {
+    adminTrialOrgWarning(workspaceId: $workspaceId) {
+      workspaceId
+      workspaceName
+      orgId
+      grantedAt
+      status
+    }
+  }
+`;
+
+export const GET_ADMIN_TRIAL_END_PREVIEW = gql`
+  query AdminTrialEndPreview($workspaceId: Int!) {
+    adminTrialEndPreview(workspaceId: $workspaceId) {
+      hasSubscription
+      amount
+    }
+  }
+`;
+
+const TRIAL_FIELDS = gql`
+  fragment TrialFields on AdminTrial {
+    id
+    reason
+    comment
+    grantedByEmail
+    startsAt
+    expiresAt
+    status
+    endedAt
+    createdAt
+  }
+`;
+
+export const GRANT_TRIAL = gql`
+  mutation AdminGrantTrial($workspaceId: Int!, $days: Int!, $reason: AdminTrialReason!, $comment: String) {
+    adminGrantTrial(workspaceId: $workspaceId, days: $days, reason: $reason, comment: $comment) {
+      ...TrialFields
+    }
+  }
+  ${TRIAL_FIELDS}
+`;
+
+export const EXTEND_TRIAL = gql`
+  mutation AdminExtendTrial($workspaceId: Int!, $days: Int!) {
+    adminExtendTrial(workspaceId: $workspaceId, days: $days) {
+      ...TrialFields
+    }
+  }
+  ${TRIAL_FIELDS}
+`;
+
+export const END_TRIAL = gql`
+  mutation AdminEndTrial($workspaceId: Int!, $comment: String) {
+    adminEndTrial(workspaceId: $workspaceId, comment: $comment) {
+      status
+      charged
+    }
+  }
 `;
 
 export const GET_ADMIN_TASKS = gql`
