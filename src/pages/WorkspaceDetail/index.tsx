@@ -5,6 +5,7 @@ import cs from "classnames";
 import { GET_ADMIN_WORKSPACE, MARK_INVOICE_PAID } from "../../api/queries";
 import { loginAsClient } from "../../api/auth";
 import { SettingsTable } from "../../components/SettingsTable";
+import { TrialSection, type Trial } from "./TrialSection";
 import styles from "./styles.module.scss";
 
 interface WorkspaceSummary {
@@ -109,6 +110,7 @@ export function WorkspaceDetailPage() {
   const ws: WorkspaceSummary = detail.workspace;
   const charges: Charge[] = detail.charges ?? [];
   const connections: Connection[] = detail.connections ?? [];
+  const trials: Trial[] = detail.trials ?? [];
 
   const impersonate = async () => {
     if (ws.ownerId == null) return;
@@ -183,6 +185,13 @@ export function WorkspaceDetailPage() {
           </div>
         </div>
       </div>
+
+      <TrialSection
+        workspaceId={workspaceId}
+        billingStatus={ws.billingStatus}
+        trials={trials}
+        onChange={() => void refetch()}
+      />
 
       <h2 className={styles.sectionTitle}>Billing history</h2>
       {markError && <div className={styles.error}>Could not mark the invoice as paid: {markError.message}</div>}
