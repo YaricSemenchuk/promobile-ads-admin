@@ -40,7 +40,10 @@ export function AdminLayout() {
   return (
     <div className={styles.shell}>
       <nav className={styles.sidebar}>
-        <div className={styles.logo}>Promobile Admin</div>
+        <div className={styles.logo}>
+          <span className={styles.logoMark} aria-hidden />
+          Promobile Admin
+        </div>
 
         {SECTIONS.map((section) => (
           <div key={section.title} className={styles.section}>

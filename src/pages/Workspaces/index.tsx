@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_ADMIN_WORKSPACES } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
-import styles from "./styles.module.scss";
+import { Pager } from "../../components/Pager";
+import { PageHeader } from "../../components/ui";
+import styles from "../../styles/list.module.scss";
 
 type Column = "name" | "owner" | "plan" | "status" | "members" | "connections" | "created";
 
@@ -36,8 +38,6 @@ export function WorkspacesPage() {
 
   const rows: WorkspaceRow[] = data?.adminWorkspaces?.rows ?? [];
   const total: number = data?.adminWorkspaces?.total ?? 0;
-  const from = total === 0 ? 0 : offset + 1;
-  const to = offset + rows.length;
 
   // Новый поиск — снова первая страница: иначе запрос уходит со смещением от
   // прошлой выдачи и находит пустоту при живых совпадениях.
@@ -48,14 +48,16 @@ export function WorkspacesPage() {
 
   return (
     <div>
-      <h1 className={styles.pageTitle}>Workspaces</h1>
+      <PageHeader title="Workspaces" />
 
-      <input
-        className={styles.search}
-        placeholder="Search by workspace name or owner email…"
-        value={search}
-        onChange={(e) => onSearch(e.target.value)}
-      />
+      <div className={styles.controls}>
+        <input
+          className={styles.search}
+          placeholder="Search by workspace name or owner email…"
+          value={search}
+          onChange={(e) => onSearch(e.target.value)}
+        />
+      </div>
 
       {loading && <div className={styles.state}>Loading…</div>}
       {error && <div className={styles.state}>Failed to load workspaces.</div>}
@@ -103,27 +105,7 @@ export function WorkspacesPage() {
             }}
           />
 
-          <div className={styles.pager}>
-            <span className={styles.pagerCount}>
-              {from}–{to} of {total}
-            </span>
-            <button
-              type="button"
-              className={styles.pagerBtn}
-              onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
-              disabled={offset === 0}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              className={styles.pagerBtn}
-              onClick={() => setOffset(offset + PAGE_SIZE)}
-              disabled={to >= total}
-            >
-              Next
-            </button>
-          </div>
+          <Pager offset={offset} count={rows.length} total={total} pageSize={PAGE_SIZE} onChange={setOffset} />
         </>
       )}
     </div>

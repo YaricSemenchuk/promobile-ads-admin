@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { GET_ADMIN_REVENUE_OVERVIEW } from "../../api/queries";
+import { PageHeader } from "../../components/ui";
 import styles from "./styles.module.scss";
 
 const money = (value: number) =>
@@ -18,7 +19,7 @@ export function RevenuePage() {
 
   return (
     <div>
-      <h1 className={styles.pageTitle}>Revenue</h1>
+      <PageHeader title="Revenue" />
 
       <div className={styles.tiles}>
         <div className={styles.tile}>

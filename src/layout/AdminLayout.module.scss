@@ -4,31 +4,56 @@
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-padding-lg, 16px);
   width: var(--ds-sidebar-width-full, 224px);
   flex-shrink: 0;
+  // Сайдбар липнет к верху и прокручивается сам: длинный список разделов не
+  // должен уводить навигацию за край вместе со страницей.
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  overflow-y: auto;
   background: var(--ui-card-bg-default);
   border-right: 1px solid var(--ui-border-secondary-default);
-  padding: var(--ds-space-16, 16px) var(--ds-space-12, 12px);
+  padding: var(--ds-padding-lg, 16px) var(--ds-space-12, 12px);
 }
 
+// Логотип — единственное место бренда в сайдбаре: точка #4262ff перед
+// названием. Заливки брендом нет, он остаётся акцентом (design-no-slop).
 .logo {
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-8, 8px);
+  padding: var(--ds-space-8, 8px);
   font-size: var(--ds-font-size-16, 16px);
+  font-weight: var(--ds-font-weight-semibold, 600);
+  line-height: var(--ds-line-height-24, 24px);
   color: var(--ui-text-primary-default);
-  padding: 8px;
-  margin-bottom: 16px;
+}
+
+.logoMark {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--ds-radius-full, 999px);
+  background: var(--button-brand-primary-bg-default, #4262ff);
 }
 
 .section {
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4, 4px);
 }
 
 // Заголовок раздела разделяет, а не привлекает: он тише самих пунктов, иначе
 // сайдбар читается как список заголовков, а не как навигация.
 .sectionTitle {
-  padding: 0 12px 6px;
-  font-size: 11px;
-  font-weight: 600;
+  padding: 0 var(--ds-space-12, 12px) var(--ds-space-4, 4px);
+  font-size: var(--ds-font-size-12, 12px);
+  font-weight: var(--ds-font-weight-semibold, 600);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ui-text-tertiary-default);
@@ -40,29 +65,43 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--ds-space-4, 4px);
 }
 
 .link {
   display: block;
-  padding: 10px 12px;
-  border-radius: var(--ds-radius-control-small, 8px);
+  padding: var(--ds-space-8, 8px) var(--ds-space-12, 12px);
+  border-radius: var(--ds-radius-control-medium, 10px);
   color: var(--ui-text-secondary-default);
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
 
   &:hover {
     background: var(--ui-modal-bg-hover);
+    color: var(--ui-text-primary-default);
   }
 }
 
+// Активный пункт — брендовая заливка-подложка (subtle) и брендовый текст:
+// видно, где ты, но без кричащей сплошной заливки.
 .active {
   background: var(--blue-background-subtle, #d9e0ff);
   color: var(--ui-text-primary-active);
+  font-weight: var(--ds-font-weight-medium, 500);
+
+  &:hover {
+    background: var(--blue-background-subtle, #d9e0ff);
+    color: var(--ui-text-primary-active);
+  }
 }
 
 .content {
   flex: 1;
-  padding: var(--ds-padding-xl, 32px);
+  min-width: 0;
+  padding: var(--ds-padding-xl, 24px);
   overflow-y: auto;
 }

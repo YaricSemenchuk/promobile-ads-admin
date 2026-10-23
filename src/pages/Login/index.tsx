@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../api/auth";
+import { Button, TextInput } from "../../components/ui";
 import styles from "./styles.module.scss";
 
 export function LoginPage() {
@@ -29,25 +30,25 @@ export function LoginPage() {
     <div className={styles.wrap}>
       <form className={styles.card} onSubmit={submit}>
         <h1 className={styles.title}>Promobile Admin</h1>
-        <input
-          className={styles.input}
+        <TextInput
+          block
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           autoFocus
         />
-        <input
-          className={styles.input}
+        <TextInput
+          block
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         {error && <div className={styles.error}>{error}</div>}
-        <button className={styles.submit} type="submit" disabled={submitting}>
+        <Button variant="primary" block type="submit" disabled={submitting} className={styles.submit}>
           {submitting ? "Signing in…" : "Sign in"}
-        </button>
+        </Button>
       </form>
     </div>
   );

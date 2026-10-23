@@ -1,5 +1,8 @@
-@import "./styles/generated/themes/light.css";
-@import "./styles/generated/themes/dark.css";
+/* Шрифт и база. Семантические токены приходят из sandbox-tokens/* (colors.scss,
+ * tokens.scss) — они объявлены на голом :root и работают без data-theme.
+ * Генерируемые темы (styles/generated/themes/*.css) привязаны к
+ * :root[data-theme=...], который в админке никто не выставляет, поэтому их
+ * сюда не подключаем — иначе это мёртвый слой, который только путает. */
 
 @font-face {
   font-family: "Rubik";
@@ -32,6 +35,24 @@ body,
 body {
   margin: 0;
   font-family: var(--ds-font-body, "Rubik", system-ui, sans-serif);
-  background: var(--ui-page-bg-default, #f5f6fa);
-  color: var(--ui-text-primary-default, #1a1a1a);
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+  background: var(--ui-page-bg-default, #f5f6fc);
+  color: var(--ui-text-primary-default, #202020);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Цифры в таблицах и плитках выравниваются по разрядам: оператор админки
+ * сверяет суммы и счётчики столбиком, а пропорциональные цифры съезжают. */
+table,
+.tabularNums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Единый фокус для клавиатуры по всей админке: видимое кольцо бренда, но
+ * только при навигации с клавиатуры, чтобы клик мышью не обводил контролы. */
+:focus-visible {
+  outline: 2px solid var(--button-brand-primary-bg-default, #4262ff);
+  outline-offset: 2px;
 }
