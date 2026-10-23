@@ -53,6 +53,12 @@
   --ds-padding-xl: 24px; // padding/xl
   --ds-sidebar-width-full: 224px; // element/SideBarMenuWeight_full
 
+  // ---- Elevation ----
+  // Продукт разделяет поверхности рамкой, а не тенью (design-no-slop: тень на
+  // каждой карточке — примета слопа). Эта тень очень слабая и нужна только
+  // плавающим слоям — дроверу и всплывающим меню, — не обычным карточкам.
+  --ds-shadow-overlay: 0 12px 32px -8px rgba(13, 19, 48, 0.24);
+
   // ---- Buttons ----
   --ds-button-gap-l: 8px;
   --ds-button-padding-x: 12px; // button/padding/m

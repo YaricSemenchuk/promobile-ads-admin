@@ -1,0 +1,14 @@
+// Белая поверхность на фоне страницы. Радиус карточки по дизайн-системе
+// (--ds-radius-card, 16px) — раньше по экранам стоял плоский 8px, из-за чего
+// админка не выглядела частью продукта. Разделяет рамка, не тень: продукт
+// border-based, тень на каждой карточке — примета слопа.
+
+.card {
+  background: var(--ui-card-bg-default, #fff);
+  border: 1px solid var(--ui-border-secondary-default, #e9eaf2);
+  border-radius: var(--ds-radius-card, 16px);
+}
+
+.padded {
+  padding: var(--ds-padding-xl, 24px);
+}

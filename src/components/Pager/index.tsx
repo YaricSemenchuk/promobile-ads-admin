@@ -1,3 +1,4 @@
+import { Button } from "../ui";
 import styles from "./styles.module.scss";
 
 /**
@@ -26,22 +27,16 @@ export function Pager({ offset, count, total, pageSize, onChange }: PagerProps) 
       <span className={styles.count}>
         {from}–{to} of {total}
       </span>
-      <button
-        type="button"
-        className={styles.btn}
+      <Button
+        size="sm"
         onClick={() => onChange(Math.max(0, offset - pageSize))}
         disabled={offset === 0}
       >
         Previous
-      </button>
-      <button
-        type="button"
-        className={styles.btn}
-        onClick={() => onChange(offset + pageSize)}
-        disabled={to >= total}
-      >
+      </Button>
+      <Button size="sm" onClick={() => onChange(offset + pageSize)} disabled={to >= total}>
         Next
-      </button>
+      </Button>
     </div>
   );
 }

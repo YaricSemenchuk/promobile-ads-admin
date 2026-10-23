@@ -1,0 +1,118 @@
+// Единственная кнопка админки. Раньше каждая страница рисовала свою
+// (Login.submit, Pager.btn, WorkspaceDetail.primary/secondary/danger,
+// Drawer.button) с разным радиусом (8/10/12) и разными цветами. Теперь форма
+// одна — радиус кнопки по дизайн-системе (--ds-radius-control-medium, 10px),
+// а вид задаёт вариант.
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-8, 8px);
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-control-medium, 10px);
+  font-family: inherit;
+  font-weight: var(--ds-font-weight-medium, 500);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  svg {
+    flex: none;
+  }
+}
+
+// ---- размеры ----
+
+.md {
+  height: 40px; // --ds-control-l
+  padding: 0 var(--ds-padding-lg, 16px);
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+}
+
+.sm {
+  height: 32px; // --ds-control-m
+  padding: 0 var(--ds-space-12, 12px);
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+}
+
+// ---- варианты ----
+
+// Главное действие на экране. Бренд — заливкой только здесь, по одному на экран.
+.primary {
+  background: var(--button-brand-primary-bg-default, #4262ff);
+  color: var(--button-brand-primary-text-default, #fff);
+
+  &:hover:not(:disabled) {
+    background: var(--button-brand-primary-bg-hover, #304bd1);
+  }
+
+  // --button-*-disabled в тёмной теме не темизирован (frontend.md) — светлая
+  // плашка светилась бы ярче активных. Держим нейтральную границу-фон.
+  &:disabled {
+    background: var(--ui-border-secondary-default, #e9eaf2);
+    color: var(--ui-text-tertiary-default, #9698a3);
+  }
+}
+
+// Вторичное действие: рамка, без заливки. Наведение подсвечивает брендом.
+.secondary {
+  background: var(--ui-card-bg-default, #fff);
+  border-color: var(--ui-border-primary-default, #d7d9e0);
+  color: var(--ui-text-primary-default, #202020);
+
+  &:hover:not(:disabled) {
+    border-color: var(--button-brand-primary-bg-default, #4262ff);
+    color: var(--button-brand-primary-bg-default, #4262ff);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+// Опасное действие (завершить триал, отменить). Красный — рамкой и текстом,
+// заливкой краснеет только при наведении, чтобы кнопка не кричала в покое.
+.danger {
+  background: var(--ui-card-bg-default, #fff);
+  border-color: var(--ui-text-primary-error, #f04438);
+  color: var(--ui-text-primary-error, #f04438);
+
+  &:hover:not(:disabled) {
+    background: var(--error-background-subtlest, #fef6f5);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+// Третьестепенное: только текст, фон появляется при наведении. Для действий
+// внутри плотных мест (шапки, строки).
+.ghost {
+  background: transparent;
+  color: var(--ui-text-secondary-default, #393b42);
+
+  &:hover:not(:disabled) {
+    background: var(--ui-modal-bg-hover, #e9eaf2);
+    color: var(--ui-text-primary-default, #202020);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.block {
+  width: 100%;
+}

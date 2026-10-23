@@ -7,7 +7,7 @@
   // таблицы, а вертикальные разделители строк остаются внутри.
   background: var(--ui-card-bg-default, #fff);
   border: 1px solid var(--ui-border-secondary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
+  border-radius: var(--ds-radius-card, 16px);
   // Карточка сама себе область прокрутки: тело листается внутри, а шапка
   // закреплена (см. thead ниже). Высота считается от вьюпорта, а не от
   // родителя, поэтому короткая таблица остаётся низкой, а длинная упирается в

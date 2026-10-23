@@ -1,0 +1,37 @@
+// Шапка страницы: заголовок слева, действия справа. Заголовок — по шкале
+// дизайн-системы (heading/large 28/36 semibold), а не прежний внесистемный
+// 24px. Одна высота и один отступ у всех экранов админки.
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ds-padding-lg, 16px);
+  margin: 0 0 var(--ds-padding-xl, 24px);
+}
+
+.titleWrap {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--ds-font-size-28, 28px);
+  line-height: var(--ds-line-height-36, 36px);
+  font-weight: var(--ds-font-weight-semibold, 600);
+  color: var(--ui-text-primary-default, #202020);
+}
+
+.subtitle {
+  margin: var(--ds-space-4, 4px) 0 0;
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+  color: var(--ui-text-tertiary-default, #9698a3);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-8, 8px);
+  flex: none;
+}

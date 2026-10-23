@@ -7,48 +7,31 @@
 }
 
 .card {
-  width: 320px;
+  width: 340px;
   background: var(--ui-card-bg-default);
   border: 1px solid var(--ui-border-secondary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  padding: 32px 24px;
+  border-radius: var(--ds-radius-card, 16px);
+  padding: var(--ds-padding-xl, 24px);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--ds-space-12, 12px);
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--ds-font-size-18, 18px);
+  line-height: var(--ds-line-height-24, 24px);
+  font-weight: var(--ds-font-weight-semibold, 600);
   color: var(--ui-text-primary-default);
-  margin: 0 0 8px;
-}
-
-.input {
-  padding: 10px 12px;
-  border: 1px solid var(--ui-border-primary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  font-size: 14px;
-  font-family: inherit;
+  margin: 0 0 var(--ds-space-4, 4px);
 }
 
 .error {
   color: var(--ui-text-primary-error, #f04438);
-  font-size: 13px;
+  font-size: var(--ds-font-size-12, 12px);
+  line-height: var(--ds-line-height-16, 16px);
 }
 
+// Отправка стоит чуть ниже полей — отделяет действие от ввода.
 .submit {
-  margin-top: 8px;
-  padding: 10px 12px;
-  border: none;
-  border-radius: var(--ds-radius-control-small, 8px);
-  background: var(--blue-background-strong, #4262ff);
-  color: var(--ui-text-inverse-default, #fff);
-  font-weight: 500;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
+  margin-top: var(--ds-space-4, 4px);
 }
