@@ -78,11 +78,28 @@
   line-height: var(--ds-line-height-20, 20px);
   transition:
     background-color 0.12s ease,
-    color 0.12s ease;
+    color 0.12s ease,
+    transform 0.12s ease;
 
   &:hover {
     background: var(--ui-modal-bg-hover);
     color: var(--ui-text-primary-default);
+    // Пункт едва подаётся к курсору — живой отклик, но без скачка раскладки.
+    transform: translateX(2px);
+  }
+}
+
+// Системная настройка «меньше движения» убирает сдвиг пункта, цвет и фон
+// остаются (это не движение, а обратная связь).
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition:
+      background-color 0.12s ease,
+      color 0.12s ease;
+
+    &:hover {
+      transform: none;
+    }
   }
 }
 
