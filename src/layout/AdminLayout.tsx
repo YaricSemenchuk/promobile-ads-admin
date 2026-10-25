@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { LenisScroller, PageTransition, useReveal } from "../motion";
 import styles from "./AdminLayout.module.scss";
 
 /**
@@ -37,9 +38,13 @@ const SECTIONS: { title: string; items: { to: string; label: string }[] }[] = [
 ];
 
 export function AdminLayout() {
+  // Сайдбар живёт сквозь все маршруты, поэтому reveal срабатывает один раз — на
+  // входе в админку: логотип и разделы мягко проступают по очереди.
+  const sidebarRef = useReveal<HTMLElement>({ stagger: true, y: 8, duration: 0.4 });
+
   return (
     <div className={styles.shell}>
-      <nav className={styles.sidebar}>
+      <nav ref={sidebarRef} className={styles.sidebar}>
         <div className={styles.logo}>
           <span className={styles.logoMark} aria-hidden />
           Promobile Admin
@@ -63,9 +68,11 @@ export function AdminLayout() {
           </div>
         ))}
       </nav>
-      <main className={styles.content}>
-        <Outlet />
-      </main>
+      <LenisScroller className={styles.content}>
+        <PageTransition>
+          <Outlet />
+        </PageTransition>
+      </LenisScroller>
     </div>
   );
 }

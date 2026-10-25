@@ -1,5 +1,8 @@
 import cs from "classnames";
+import { useLayoutEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
+import { prefersReducedMotion } from "../../motion";
 import styles from "./styles.module.scss";
 import { SortArrowsIcon } from "./icons";
 import type { SettingsTableColumn, SettingsTableProps } from "./types";
@@ -41,6 +44,25 @@ export function SettingsTable<K extends string, R>({
   const toggle = (key: K) =>
     onSortChange?.({ key, asc: sort?.key === key ? !sort.asc : true });
 
+  // Строки проступают по очереди один раз — на монтировании таблицы (у всех
+  // списков оно происходит уже с данными). Пагинацию и сортировку не
+  // перебираем заново: это была бы рябь при каждом клике, а не вход экрана.
+  const bodyRef = useRef<HTMLTableSectionElement>(null);
+  useLayoutEffect(() => {
+    const body = bodyRef.current;
+    if (!body || prefersReducedMotion()) return;
+    const ctx = gsap.context(() => {
+      gsap.from(Array.from(body.children), {
+        y: 6,
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.out",
+        stagger: 0.025,
+      });
+    }, body);
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className={cs(styles.wrap, className)}>
       <table className={styles.table} style={{ minWidth }}>
@@ -73,7 +95,7 @@ export function SettingsTable<K extends string, R>({
           </tr>
         </thead>
 
-        <tbody>
+        <tbody ref={bodyRef}>
           {rows.map((row) => {
             const href = rowHref?.(row);
             return (
