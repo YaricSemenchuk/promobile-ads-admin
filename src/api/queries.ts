@@ -239,10 +239,21 @@ export const GET_ADMIN_USERS = gql`
         email
         name
         platformRole
+        isTester
         createdAt
         ownedWorkspaceCount
         memberWorkspaceCount
       }
+    }
+  }
+`;
+
+// Тестер: пейволл и биллинговые паузы не трогают воркспейсы, которыми он владеет.
+export const SET_USER_TESTER = gql`
+  mutation AdminSetUserTester($userId: Int!, $isTester: Boolean!) {
+    adminSetUserTester(userId: $userId, isTester: $isTester) {
+      id
+      isTester
     }
   }
 `;

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import cs from "classnames";
-import { GET_ADMIN_USERS } from "../../api/queries";
+import { GET_ADMIN_USERS, SET_USER_TESTER } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
+import { Button } from "../../components/ui";
 import styles from "../../styles/list.module.scss";
 
 interface UserRow {
@@ -11,12 +12,13 @@ interface UserRow {
   email: string | null;
   name: string | null;
   platformRole: string | null;
+  isTester: boolean;
   createdAt: string;
   ownedWorkspaceCount: number;
   memberWorkspaceCount: number;
 }
 
-type Column = "email" | "name" | "role" | "workspaces" | "created";
+type Column = "email" | "name" | "role" | "tester" | "workspaces" | "created";
 
 const PAGE_SIZE = 50;
 
@@ -30,6 +32,21 @@ export function UsersPage() {
   const { data, loading, error } = useQuery(GET_ADMIN_USERS, {
     variables: { search: search || undefined, limit: PAGE_SIZE, offset },
   });
+
+  // Ответ мутации несёт id и isTester — Apollo сам обновит строку в кэше.
+  const [setTester, { error: testerError }] = useMutation(SET_USER_TESTER);
+  const [pendingId, setPendingId] = useState<number | null>(null);
+
+  const toggleTester = async (row: UserRow) => {
+    setPendingId(row.id);
+    try {
+      await setTester({ variables: { userId: row.id, isTester: !row.isTester } });
+    } catch {
+      // Ошибку показывает testerError над таблицей.
+    } finally {
+      setPendingId(null);
+    }
+  };
 
   const rows: UserRow[] = data?.adminUsers?.rows ?? [];
   const total: number = data?.adminUsers?.total ?? 0;
@@ -56,14 +73,16 @@ export function UsersPage() {
 
       {loading && !rows.length && <div className={styles.state}>Loading…</div>}
       {error && <div className={styles.state}>Failed to load users.</div>}
+      {testerError && <div className={styles.state}>Failed to change tester status: {testerError.message}</div>}
 
       <SettingsTable<Column, UserRow>
         columns={[
-          { key: "email", label: "Email", width: "30%" },
-          { key: "name", label: "Name", width: "22%" },
-          { key: "role", label: "Platform role", width: "16%" },
-          { key: "workspaces", label: "Workspaces", width: "18%" },
-          { key: "created", label: "Registered", width: "14%" },
+          { key: "email", label: "Email", width: "26%" },
+          { key: "name", label: "Name", width: "18%" },
+          { key: "role", label: "Platform role", width: "14%" },
+          { key: "tester", label: "Tester", width: "16%" },
+          { key: "workspaces", label: "Workspaces", width: "14%" },
+          { key: "created", label: "Registered", width: "12%" },
         ]}
         rows={rows}
         rowKey={(row) => String(row.id)}
@@ -81,6 +100,27 @@ export function UsersPage() {
                 <span className={cs(styles.badge, styles.warn)}>{row.platformRole}</span>
               ) : (
                 <span className={styles.note}>customer</span>
+              );
+            case "tester":
+              // Тестер не видит пейволл в своих воркспейсах, и биллинг не ставит их на паузу.
+              return (
+                <div className={styles.cell}>
+                  {row.isTester ? (
+                    <span className={cs(styles.badge, styles.ok)}>Tester · no paywall</span>
+                  ) : (
+                    <span className={styles.note}>—</span>
+                  )}
+                  <span className={styles.cellSub}>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      disabled={pendingId === row.id}
+                      onClick={() => void toggleTester(row)}
+                    >
+                      {row.isTester ? "Remove tester" : "Make tester"}
+                    </Button>
+                  </span>
+                </div>
               );
             case "workspaces":
               return (
