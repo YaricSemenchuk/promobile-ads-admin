@@ -1,0 +1,25 @@
+.country {
+  width: 72px;
+  padding: 10px 12px;
+  border: 1px solid var(--ui-border-primary-default);
+  border-radius: var(--ds-radius-control-small, 8px);
+  font-size: 14px;
+  font-family: inherit;
+  text-transform: uppercase;
+  background: var(--ui-card-bg-default);
+  color: var(--ui-text-primary-default);
+}
+
+.explain {
+  max-width: 720px;
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ui-text-secondary-default);
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 13px;
+}

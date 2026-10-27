@@ -480,3 +480,42 @@ export const MARK_INVOICE_PAID = gql`
     }
   }
 `;
+
+export const GET_ADMIN_KEYWORD_MARKET_TOP = gql`
+  query AdminKeywordMarketTop($country: String!, $from: String!, $to: String!, $limit: Int, $minAdvertisers: Int) {
+    adminKeywordMarketTop(country: $country, from: $from, to: $to, limit: $limit, minAdvertisers: $minAdvertisers) {
+      country
+      termsTotal
+      terms {
+        searchTerm
+        date
+        advertisers
+        popularity
+        topSlotKnownLow
+        topSlotKnownHigh
+        allSlotsKnownLow
+        allSlotsKnownHigh
+        inconsistent
+      }
+    }
+  }
+`;
+
+export const GET_ADMIN_KEYWORD_MARKET = gql`
+  query AdminKeywordMarket($country: String!, $searchTerm: String!, $from: String!, $to: String!) {
+    adminKeywordMarket(country: $country, searchTerm: $searchTerm, from: $from, to: $to) {
+      country
+      searchTerm
+      connections
+      days {
+        date
+        advertisers
+        topSlotKnownLow
+        topSlotKnownHigh
+        allSlotsKnownLow
+        allSlotsKnownHigh
+        inconsistent
+      }
+    }
+  }
+`;

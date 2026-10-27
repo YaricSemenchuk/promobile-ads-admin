@@ -33,7 +33,10 @@ const SECTIONS: { title: string; items: { to: string; label: string }[] }[] = [
   },
   {
     title: "Apple",
-    items: [{ to: "/asa-connections", label: "ASA Connections" }],
+    items: [
+      { to: "/asa-connections", label: "ASA Connections" },
+      { to: "/keyword-market", label: "Keyword market" },
+    ],
   },
 ];
 
