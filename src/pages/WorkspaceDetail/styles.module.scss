@@ -304,7 +304,6 @@
 
 // Поля ввода — радиус 12px и высота 40px, как у примитивов TextInput/Select.
 .input,
-.select,
 .inputNarrow {
   box-sizing: border-box;
   height: 40px;
@@ -324,7 +323,7 @@
 }
 
 .input,
-.select {
+.reasonSelect {
   width: 100%;
   max-width: 420px;
 }

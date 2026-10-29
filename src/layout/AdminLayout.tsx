@@ -36,6 +36,7 @@ const NAV: SidebarItem[] = [
   { section: "People", to: "/users", label: "Users", icon: UsersIcon, tone: "subscription" },
   { section: "Apple", to: "/asa-connections", label: "ASA Connections", icon: AppleAdsIcon, tone: "appleAds" },
   { section: "Apple", to: "/keyword-market", label: "Keyword market", icon: StatisticsIcon, tone: "balance" },
+  { section: "Integrations", to: "/mcp", label: "MCP access", icon: AutomationsIcon, tone: "subscription" },
 ];
 
 const COLLAPSED_KEY = "promobile.admin.sidebar.collapsed";

@@ -17,6 +17,8 @@ import { ActivityPage } from "./pages/Activity";
 import { UsersPage } from "./pages/Users";
 import { BillingPage } from "./pages/Billing";
 import { RampUpsPage } from "./pages/RampUps";
+import { McpPage } from "./pages/Mcp";
+import { McpDetailPage } from "./pages/McpDetail";
 import { KeywordMarketPage } from "./pages/KeywordMarket";
 import { KeywordMarketDetailPage } from "./pages/KeywordMarketDetail";
 
@@ -39,6 +41,8 @@ function App() {
               <Route path="/workspaces" element={<WorkspacesPage />} />
               <Route path="/workspaces/:id" element={<WorkspaceDetailPage />} />
               <Route path="/users" element={<UsersPage />} />
+              <Route path="/mcp" element={<McpPage />} />
+              <Route path="/mcp/:id" element={<McpDetailPage />} />
               <Route path="/asa-connections" element={<AsaConnectionsPage />} />
               <Route path="/asa-connections/:id" element={<AsaConnectionDetailPage />} />
               <Route path="/keyword-market" element={<KeywordMarketPage />} />

@@ -23,11 +23,11 @@
   flex-wrap: wrap;
 }
 
-// Поиск и фильтр — в одной форме с кнопками: высота 40px, радиус поля 12px
-// (--ds-radius-control-large), как у примитивов TextInput/Select.
-.search,
-.select {
+// Поиск — в одной форме с фильтром и кнопками: высота 40px, радиус поля 12px
+// (--ds-radius-control-large), как у примитива Select.
+.search {
   box-sizing: border-box;
+  width: 320px;
   height: 40px;
   padding: 0 var(--ds-space-12, 12px);
   border: 1px solid var(--ui-border-primary-default);
@@ -39,22 +39,19 @@
   font-family: inherit;
   transition: border-color 0.15s ease;
 
+  &::placeholder {
+    color: var(--ui-text-tertiary-default, #9698a3);
+  }
+
   &:focus {
     outline: none;
     border-color: var(--button-brand-primary-bg-default, #4262ff);
   }
 }
 
-.search {
-  width: 320px;
-
-  &::placeholder {
-    color: var(--ui-text-tertiary-default, #9698a3);
-  }
-}
-
-.select {
-  cursor: pointer;
+// Фикс ширины у фильтра-выпадашки, чтобы строка не прыгала при смене пункта.
+.filterSelect {
+  width: 180px;
 }
 
 .state {
