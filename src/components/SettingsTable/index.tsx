@@ -64,7 +64,11 @@ export function SettingsTable<K extends string, R>({
   }, []);
 
   return (
-    <div className={cs(styles.wrap, className)}>
+    // data-lenis-prevent: таблица прокручивается нативно колесом. Иначе Lenis
+    // (плавный скролл страницы в AdminLayout) перехватывает колесо и крутит
+    // страницу, которая не переполнена — вся прокрутка живёт внутри .wrap, —
+    // так что колесо над таблицей не делало ничего, помогал только ползунок.
+    <div className={cs(styles.wrap, className)} data-lenis-prevent>
       <table className={styles.table} style={{ minWidth }}>
         <colgroup>
           {columns.map((c) => (
