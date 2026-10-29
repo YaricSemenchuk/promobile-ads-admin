@@ -35,6 +35,10 @@ const SECTIONS: { title: string; items: { to: string; label: string }[] }[] = [
     title: "Apple",
     items: [{ to: "/asa-connections", label: "ASA Connections" }],
   },
+  {
+    title: "Integrations",
+    items: [{ to: "/mcp", label: "MCP access" }],
+  },
 ];
 
 export function AdminLayout() {

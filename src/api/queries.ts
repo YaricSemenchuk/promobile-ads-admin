@@ -480,3 +480,79 @@ export const MARK_INVOICE_PAID = gql`
     }
   }
 `;
+
+export const GET_ADMIN_MCP_CONNECTIONS = gql`
+  query AdminMcpConnections($search: String, $limit: Int, $offset: Int) {
+    adminMcpConnections(search: $search, limit: $limit, offset: $offset) {
+      total
+      rows {
+        id
+        userId
+        userEmail
+        userName
+        workspaceId
+        workspaceName
+        label
+        scope
+        clientName
+        allWorkspaces
+        lastUsedAt
+        revokedAt
+        createdAt
+        requestCount
+        changeCount
+      }
+    }
+  }
+`;
+
+export const GET_ADMIN_MCP_CONNECTION = gql`
+  query AdminMcpConnection($id: String!, $limit: Int, $offset: Int) {
+    adminMcpConnection(id: $id, limit: $limit, offset: $offset) {
+      connection {
+        id
+        userId
+        userEmail
+        userName
+        workspaceId
+        workspaceName
+        label
+        scope
+        clientName
+        allWorkspaces
+        lastUsedAt
+        revokedAt
+        createdAt
+        requestCount
+        changeCount
+      }
+      requestsTotal
+      requests {
+        id
+        toolName
+        args
+        ok
+        errorMessage
+        durationMs
+        workspaceId
+        workspaceName
+        createdAt
+      }
+      changesTotal
+      changes {
+        id
+        workspaceId
+        workspaceName
+        userEmail
+        actor
+        entityType
+        action
+        changeSource
+        status
+        okCount
+        failedCount
+        createdAt
+      }
+    }
+  }
+`;
