@@ -22,6 +22,12 @@ type Column = "email" | "name" | "role" | "tester" | "workspaces" | "created";
 
 const PAGE_SIZE = 50;
 
+// Подсказка при наведении: тестер проходит пейволл везде, но чужой закрытый воркспейс от этого не оживает.
+const TESTER_HINT =
+  "No paywall for this user in any workspace they open, including someone else's. " +
+  "Workspaces they own are never stopped by billing. In someone else's closed workspace only this user gets past the paywall: " +
+  "its sync, rules and campaigns stay stopped until the owner pays or is made a tester.";
+
 const date = (iso: string) =>
   new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
@@ -102,11 +108,13 @@ export function UsersPage() {
                 <span className={styles.note}>customer</span>
               );
             case "tester":
-              // Тестер не видит пейволл в своих воркспейсах, и биллинг не ставит их на паузу.
+              // Тестер не видит пейволл ни в одном своём или чужом воркспейсе; свои биллинг ещё и не ставит на паузу.
               return (
                 <div className={styles.cell}>
                   {row.isTester ? (
-                    <span className={cs(styles.badge, styles.ok)}>Tester · no paywall</span>
+                    <span className={cs(styles.badge, styles.ok)} title={TESTER_HINT}>
+                      Tester · no paywall
+                    </span>
                   ) : (
                     <span className={styles.note}>—</span>
                   )}
@@ -114,6 +122,7 @@ export function UsersPage() {
                     <Button
                       size="sm"
                       variant="ghost"
+                      title={TESTER_HINT}
                       disabled={pendingId === row.id}
                       onClick={() => void toggleTester(row)}
                     >
