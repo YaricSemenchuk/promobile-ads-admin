@@ -1,0 +1,214 @@
+// The platform header card (promobile-ads src/sandbox/components/Header) with the
+// profile menu of src/sandbox/components/ProfileMenu.
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-16);
+  width: 100%;
+  padding: var(--ds-padding-lg) var(--ds-padding-xl);
+  background: var(--ui-card-bg-default);
+  border-radius: var(--ds-radius-large);
+  font-family: var(--ds-font-body);
+  flex-shrink: 0;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-12);
+  min-width: 0;
+}
+
+// The environment pill uses the platform's status badge tones (BillingBadge):
+// production reads as the place to be careful in, staging as a warning.
+.env {
+  --env-bg: var(--neutral-background-subtlest);
+  --env-text: var(--ui-text-secondary-default);
+  --env-dot: var(--ui-text-tertiary-default);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--ds-control-xs);
+  padding: 0 12px 0 10px;
+  border-radius: var(--ds-radius-full);
+  background: var(--env-bg);
+  color: var(--env-text);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.env-error {
+  --env-bg: var(--error-background-subtlest);
+  --env-text: var(--error-background-strong);
+  --env-dot: var(--error-background-strong);
+}
+
+.env-warning {
+  --env-bg: var(--warning-background-subtlest);
+  --env-text: var(--warning-foreground-strong);
+  --env-dot: var(--warning-background-strong);
+}
+
+.envDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--ds-radius-full);
+  background: var(--env-dot);
+}
+
+.host {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ui-text-tertiary-default);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ds-space-16);
+  flex-shrink: 0;
+}
+
+.themeSwitch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: var(--ui-card-bg-default);
+  border: 1px solid var(--ui-border-secondary-default);
+  border-radius: var(--ds-radius-full);
+}
+
+.switchItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-control-xs);
+  height: var(--ds-control-xs);
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: var(--ds-radius-full);
+  cursor: pointer;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    --stroke-0: var(--ui-text-tertiary-default);
+  }
+}
+
+.switchActive {
+  background: var(--blue-background-subtlest);
+
+  svg {
+    --stroke-0: var(--blue-foreground-strong);
+  }
+}
+
+.account {
+  position: relative;
+}
+
+// No avatar images in the admin: the initial of the staff e-mail on the
+// platform's fallback avatar ring.
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--blue-background-medium);
+  border-radius: var(--ds-radius-full);
+  background: var(--blue-background-subtlest);
+  color: var(--blue-foreground-strong);
+  font-family: var(--ds-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 240px;
+  padding: 12px;
+  border-radius: var(--ds-radius-card);
+  // Not --ui-popover-bg-default: that one is the dark tooltip ink in both themes.
+  background: var(--ui-card-bg-default);
+  border: 1px solid var(--ui-border-secondary-default);
+  box-shadow: 0 32px 96px rgba(69, 55, 108, 0.14);
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 6px 8px;
+  min-width: 0;
+}
+
+.whoEmail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ui-text-primary-default);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.whoRole {
+  color: var(--ui-text-tertiary-default);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--ui-border-secondary-default);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 6px;
+  border: none;
+  border-radius: var(--ds-radius-control-small);
+  background: transparent;
+  color: var(--ui-text-secondary-default);
+  font-family: var(--ds-font-body);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--neutral-background-subtle);
+    color: var(--ui-text-primary-default);
+  }
+}
+
+.menuIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}

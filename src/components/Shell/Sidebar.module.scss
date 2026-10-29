@@ -1,0 +1,269 @@
+// The platform sidebar (promobile-ads src/sandbox/components/Sidebar/styles.module.scss):
+// same card, tiles, indicator and collapse. Dropped what the admin does not use:
+// sub-items, the call-to-action and the mobile bottom bar.
+
+.sidebar {
+  --card-bg: var(--ds-color-card-bg);
+  --text-secondary: var(--ds-color-text-secondary);
+  --brand: var(--ds-color-brand);
+  --arrow: var(--ds-color-text-tertiary);
+  --page-bg: var(--ds-color-page-bg);
+
+  --tone-overview: var(--ds-tone-blue-bg);
+  --tone-apps: var(--ds-tone-01-bg);
+  --tone-appInsights: var(--ds-tone-02-bg);
+  --tone-balance: var(--ds-tone-03-bg);
+  --tone-subscription: var(--ds-tone-success-bg);
+  --tone-orders: var(--ds-tone-warning-bg);
+  --tone-appleAds: var(--ds-tone-blue-bg);
+
+  --item-h: var(--ds-control-m);
+  --icon-box-w: 40px;
+  --icon: var(--ds-menu-icon-size);
+  --radius-icon: var(--ds-radius-control-extralarge);
+
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 24px var(--ds-padding-lg);
+  background: var(--card-bg);
+  border-radius: var(--ds-radius-card);
+  font-family: var(--ds-font-body);
+  width: var(--ds-sidebar-width-full);
+  // Wide tables must never squeeze the menu.
+  flex-shrink: 0;
+  transition: width 0.2s ease;
+}
+
+.collapsed {
+  width: 72px;
+}
+
+.inner {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 0;
+  align-self: stretch;
+  min-height: 0;
+}
+
+.collapsed .inner {
+  align-items: center;
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  width: 100%;
+}
+
+.collapsed .logoRow {
+  justify-content: center;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-16);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  // The indicator sits at -16px and the 40px tiles overhang the 32px rows, so the
+  // scroll box borrows that space back, as on the platform.
+  width: calc(100% + 16px);
+  margin: -4px 0 -4px -16px;
+  padding: 4px 0 4px 16px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.collapsed .list {
+  width: auto;
+  align-items: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-16);
+  width: 100%;
+}
+
+.collapsed .section {
+  width: var(--icon-box-w);
+}
+
+.sectionLine {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--page-bg);
+}
+
+.sectionLabel {
+  color: var(--ds-color-text-tertiary);
+  font-size: var(--ds-font-body-size);
+  line-height: var(--ds-font-body-line);
+  letter-spacing: -0.16px;
+  white-space: nowrap;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: var(--item-h);
+  text-decoration: none;
+  font-family: var(--ds-font-body);
+}
+
+.collapsed .item {
+  width: var(--icon-box-w);
+  justify-content: center;
+}
+
+.indicator {
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--brand);
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-icon);
+  flex-shrink: 0;
+  overflow: hidden;
+
+  svg {
+    width: var(--icon);
+    height: var(--icon);
+    display: block;
+  }
+}
+
+.tone-overview {
+  background: var(--tone-overview);
+}
+
+.tone-apps {
+  background: var(--tone-apps);
+}
+
+.tone-appInsights {
+  background: var(--tone-appInsights);
+}
+
+.tone-balance {
+  background: var(--tone-balance);
+}
+
+.tone-subscription {
+  background: var(--tone-subscription);
+}
+
+.tone-orders {
+  background: var(--tone-orders);
+}
+
+.tone-appleAds {
+  background: var(--tone-appleAds);
+}
+
+// Active: a brand circle with a white glyph and the bar on the left edge.
+.item.active .iconBox {
+  background: var(--brand);
+  border-radius: var(--ds-radius-full);
+  --stroke-0: #ffffff;
+}
+
+.label {
+  margin: 0;
+  min-width: 0;
+  color: var(--text-secondary);
+  font-size: var(--ds-font-body-size);
+  line-height: var(--ds-font-body-line);
+  letter-spacing: -0.16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.12s ease;
+}
+
+// The platform menu has no hover; staff jump between screens all day, so the label answers the pointer.
+.item:hover .label,
+.item.active .label {
+  color: var(--ui-text-primary-default);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: var(--ds-radius-control-medium);
+}
+
+.toggle {
+  position: absolute;
+  top: 72px;
+  right: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--ds-radius-full);
+  background: var(--card-bg);
+  border: 0.5px solid var(--page-bg);
+  box-shadow: -2px 1px 6px var(--page-bg);
+  cursor: pointer;
+  padding: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    --stroke-0: var(--arrow);
+  }
+}
+
+.collapsed .toggle svg {
+  transform: rotate(180deg);
+}
+
+// Ten items in four sections need about 880px at the platform's spacing. On a
+// laptop-height window the last items would sit below the fold of a list with a
+// hidden scrollbar, so the gaps tighten instead and every item stays in view.
+@media (max-height: 880px) {
+  .inner {
+    gap: 20px;
+  }
+
+  .list,
+  .section {
+    gap: 10px;
+  }
+}

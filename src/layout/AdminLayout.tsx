@@ -1,81 +1,83 @@
-import { NavLink, Outlet } from "react-router-dom";
-import { LenisScroller, PageTransition, useReveal } from "../motion";
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+import { LenisScroller, PageTransition } from "../motion";
+import { Header } from "../components/Shell/Header";
+import { Sidebar } from "../components/Shell/Sidebar";
+import type { SidebarItem } from "../components/Shell/Sidebar";
+import {
+  ActivityIcon,
+  AppleAdsIcon,
+  AppsIcon,
+  AutomationsIcon,
+  BalanceIcon,
+  BillingIcon,
+  CampaignsIcon,
+  RunAdsIcon,
+  StatisticsIcon,
+} from "../components/Shell/platformIcons";
+import { UsersIcon } from "../components/Shell/adminIcons";
 import styles from "./AdminLayout.module.scss";
 
 /**
- * Навигация сгруппирована, потому что плоский список из девяти пунктов не
+ * Навигация сгруппирована, потому что плоский список из десяти пунктов не
  * читается: разделы отвечают на разные вопросы и открываются в разных
  * ситуациях. Деньги смотрят по расписанию, операции — когда что-то сломалось.
+ * Иконки и тона — из набора платформы; одна иконка в обоих продуктах значит
+ * одно и то же цветом.
  */
-const SECTIONS: { title: string; items: { to: string; label: string }[] }[] = [
-  {
-    title: "Money",
-    items: [
-      { to: "/revenue", label: "Revenue" },
-      { to: "/billing", label: "Billing" },
-    ],
-  },
-  {
-    title: "Operations",
-    items: [
-      { to: "/tasks", label: "Task queue" },
-      { to: "/sync", label: "Sync health" },
-      { to: "/ramp-ups", label: "Ramp-Up" },
-      { to: "/activity", label: "Activity log" },
-    ],
-  },
-  {
-    title: "People",
-    items: [
-      { to: "/workspaces", label: "Workspaces" },
-      { to: "/users", label: "Users" },
-    ],
-  },
-  {
-    title: "Apple",
-    items: [
-      { to: "/asa-connections", label: "ASA Connections" },
-      { to: "/keyword-market", label: "Keyword market" },
-    ],
-  },
+const NAV: SidebarItem[] = [
+  { section: "Money", to: "/revenue", label: "Revenue", icon: BalanceIcon, tone: "balance" },
+  { section: "Money", to: "/billing", label: "Billing", icon: BillingIcon, tone: "appInsights" },
+  { section: "Operations", to: "/tasks", label: "Task queue", icon: AutomationsIcon, tone: "orders" },
+  { section: "Operations", to: "/sync", label: "Sync health", icon: ActivityIcon, tone: "apps" },
+  { section: "Operations", to: "/ramp-ups", label: "Ramp-Up", icon: RunAdsIcon, tone: "balance" },
+  { section: "Operations", to: "/activity", label: "Activity log", icon: CampaignsIcon, tone: "appInsights" },
+  { section: "People", to: "/workspaces", label: "Workspaces", icon: AppsIcon, tone: "apps" },
+  { section: "People", to: "/users", label: "Users", icon: UsersIcon, tone: "subscription" },
+  { section: "Apple", to: "/asa-connections", label: "ASA Connections", icon: AppleAdsIcon, tone: "appleAds" },
+  { section: "Apple", to: "/keyword-market", label: "Keyword market", icon: StatisticsIcon, tone: "balance" },
 ];
 
+const COLLAPSED_KEY = "promobile.admin.sidebar.collapsed";
+
+const readCollapsed = (): boolean => {
+  try {
+    return window.localStorage.getItem(COLLAPSED_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Каркас платформы (promobile-ads src/layouts/MainLayout): сайдбар-карточка во
+ * всю высоту, справа колонка из шапки и карточки страницы. Прокручивается
+ * только карточка страницы, меню и шапка стоят на месте.
+ */
 export function AdminLayout() {
-  // Сайдбар живёт сквозь все маршруты, поэтому reveal срабатывает один раз — на
-  // входе в админку: логотип и разделы мягко проступают по очереди.
-  const sidebarRef = useReveal<HTMLElement>({ stagger: true, y: 8, duration: 0.4 });
+  const [collapsed, setCollapsed] = useState(readCollapsed);
+
+  const toggle = () =>
+    setCollapsed((was) => {
+      const next = !was;
+      try {
+        window.localStorage.setItem(COLLAPSED_KEY, next ? "1" : "0");
+      } catch {
+        // Private mode: the menu just opens expanded next time.
+      }
+      return next;
+    });
 
   return (
     <div className={styles.shell}>
-      <nav ref={sidebarRef} className={styles.sidebar}>
-        <div className={styles.logo}>
-          <span className={styles.logoMark} aria-hidden />
-          Promobile Admin
-        </div>
-
-        {SECTIONS.map((section) => (
-          <div key={section.title} className={styles.section}>
-            <div className={styles.sectionTitle}>{section.title}</div>
-            <ul className={styles.nav}>
-              {section.items.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    className={({ isActive }) => (isActive ? `${styles.link} ${styles.active}` : styles.link)}
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </nav>
-      <LenisScroller className={styles.content}>
-        <PageTransition>
-          <Outlet />
-        </PageTransition>
-      </LenisScroller>
+      <Sidebar items={NAV} opened={!collapsed} onToggle={toggle} />
+      <div className={styles.column}>
+        <Header />
+        <LenisScroller className={styles.page}>
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
+        </LenisScroller>
+      </div>
     </div>
   );
 }
