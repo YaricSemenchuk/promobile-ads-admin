@@ -9,6 +9,7 @@ import {
   GRANT_TRIAL,
 } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
+import { Select } from "../../components/ui";
 import styles from "./styles.module.scss";
 
 export interface Trial {
@@ -270,13 +271,14 @@ export function TrialSection({
 
             <div className={styles.field}>
               <span className={styles.label}>Reason</span>
-              <select className={styles.select} value={reason} onChange={(e) => setReason(e.target.value)}>
-                {REASONS.map((r) => (
-                  <option key={r.value} value={r.value}>
-                    {r.label}
-                  </option>
-                ))}
-              </select>
+              <Select
+                className={styles.reasonSelect}
+                block
+                value={reason}
+                onChange={setReason}
+                options={REASONS}
+                ariaLabel="Trial reason"
+              />
             </div>
 
             <div className={styles.field}>

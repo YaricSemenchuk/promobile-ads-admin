@@ -5,6 +5,7 @@ import cs from "classnames";
 import { GET_ADMIN_TASKS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
+import { Select } from "../../components/ui";
 import styles from "../../styles/list.module.scss";
 
 interface TaskRow {
@@ -42,7 +43,10 @@ const POLL_MS = 15_000;
  */
 const STALE_MS = 5 * 60 * 1000;
 
-const STATES = ["", "queued", "running", "done", "failed", "cancelled"];
+const STATE_OPTIONS = ["", "queued", "running", "done", "failed", "cancelled"].map((s) => ({
+  value: s,
+  label: s || "All states",
+}));
 
 const ago = (iso: string | null) => {
   if (!iso) return "—";
@@ -92,21 +96,16 @@ export function TasksPage() {
       <h1 className={styles.pageTitle}>Task queue</h1>
 
       <div className={styles.controls}>
-        <select
-          className={styles.select}
+        <Select
+          className={styles.filterSelect}
           value={state}
-          onChange={(e) => {
-            setState(e.target.value);
+          onChange={(next) => {
+            setState(next);
             setOffset(0);
           }}
-          aria-label="Filter by state"
-        >
-          {STATES.map((s) => (
-            <option key={s} value={s}>
-              {s || "All states"}
-            </option>
-          ))}
-        </select>
+          options={STATE_OPTIONS}
+          ariaLabel="Filter by state"
+        />
 
         <input
           className={styles.search}

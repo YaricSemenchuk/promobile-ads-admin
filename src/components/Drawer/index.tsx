@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import styles from "./styles.module.scss";
-import { ArrowDownIcon, CheckIcon, CloseIcon, CopyIcon } from "./icons";
+import { CheckIcon, CloseIcon, CopyIcon } from "./icons";
+import { Select } from "../ui";
 import type {
   DrawerButtonProps,
   DrawerCopyRowProps,
@@ -147,8 +148,8 @@ export const DrawerText: React.FC<DrawerTextProps> = ({ children, muted }) => (
 );
 
 /**
- * Комбо: рамка, шеврон и нативный select поверх — раскрывающийся список
- * остаётся системным, а выглядит как поле рядом.
+ * Выбор из списка в дровере. Список рисует компонент дизайн-системы (портал,
+ * токены), крупный размер — под остальные поля дровера (48px).
  */
 export const DrawerSelect: React.FC<DrawerSelectProps> = ({
   label,
@@ -161,25 +162,15 @@ export const DrawerSelect: React.FC<DrawerSelectProps> = ({
 }) => (
   <div className={styles.field}>
     {label && <span className={styles.label}>{label}</span>}
-    <div className={cs(styles.select, disabled && styles.selectOff)}>
-      <span className={styles.selectText}>
-        {options.find((option) => option.value === value)?.label ?? value}
-      </span>
-      <ArrowDownIcon className={styles.selectArrow} />
-      <select
-        className={styles.selectNative}
-        value={value}
-        aria-label={ariaLabel}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Select
+      size="lg"
+      block
+      value={value}
+      options={options}
+      ariaLabel={ariaLabel}
+      disabled={disabled}
+      onChange={onChange}
+    />
     {caption && <span className={styles.caption}>{caption}</span>}
   </div>
 );

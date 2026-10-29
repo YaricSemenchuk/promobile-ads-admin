@@ -5,6 +5,7 @@ import cs from "classnames";
 import { GET_ADMIN_ASA_CONNECTIONS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
+import { Select } from "../../components/ui";
 import styles from "../../styles/list.module.scss";
 
 interface ConnectionRow {
@@ -26,7 +27,10 @@ interface ConnectionRow {
 type Column = "workspace" | "org" | "status" | "api" | "currency" | "synced";
 
 const PAGE_SIZE = 50;
-const STATUSES = ["", "ACTIVE", "PENDING", "ERROR", "REVOKED"];
+const STATUS_OPTIONS = ["", "ACTIVE", "PENDING", "ERROR", "REVOKED"].map((s) => ({
+  value: s,
+  label: s || "All statuses",
+}));
 
 const ago = (iso: string | null) => {
   if (!iso) return "never";
@@ -64,21 +68,16 @@ export function AsaConnectionsPage() {
       <h1 className={styles.pageTitle}>ASA Connections</h1>
 
       <div className={styles.controls}>
-        <select
-          className={styles.select}
+        <Select
+          className={styles.filterSelect}
           value={status}
-          onChange={(e) => {
-            setStatus(e.target.value);
+          onChange={(next) => {
+            setStatus(next);
             setOffset(0);
           }}
-          aria-label="Filter by connection status"
-        >
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s || "All statuses"}
-            </option>
-          ))}
-        </select>
+          options={STATUS_OPTIONS}
+          ariaLabel="Filter by connection status"
+        />
 
         <input
           className={styles.search}

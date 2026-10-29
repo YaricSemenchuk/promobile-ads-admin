@@ -12,4 +12,4 @@ export type { PageHeaderProps } from "./PageHeader";
 export { TextInput } from "./TextInput";
 export type { TextInputProps } from "./TextInput";
 export { Select } from "./Select";
-export type { SelectProps } from "./Select";
+export type { SelectProps, SelectOption } from "./Select";
