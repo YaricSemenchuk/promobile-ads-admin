@@ -15,6 +15,7 @@ import { AppDetailPage } from "./pages/AppDetail";
 import { SyncPage } from "./pages/Sync";
 import { ActivityPage } from "./pages/Activity";
 import { UsersPage } from "./pages/Users";
+import { UserDetailPage } from "./pages/UserDetail";
 import { BillingPage } from "./pages/Billing";
 import { RampUpsPage } from "./pages/RampUps";
 import { McpPage } from "./pages/Mcp";
@@ -41,6 +42,7 @@ function App() {
               <Route path="/workspaces" element={<WorkspacesPage />} />
               <Route path="/workspaces/:id" element={<WorkspaceDetailPage />} />
               <Route path="/users" element={<UsersPage />} />
+              <Route path="/users/:id" element={<UserDetailPage />} />
               <Route path="/mcp" element={<McpPage />} />
               <Route path="/mcp/:id" element={<McpDetailPage />} />
               <Route path="/asa-connections" element={<AsaConnectionsPage />} />
