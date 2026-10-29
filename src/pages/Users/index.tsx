@@ -92,6 +92,7 @@ export function UsersPage() {
         ]}
         rows={rows}
         rowKey={(row) => String(row.id)}
+        rowHref={(row) => `/users/${row.id}`}
         emptyText="No users found."
         renderCell={(row, key) => {
           switch (key) {

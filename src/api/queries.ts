@@ -248,12 +248,40 @@ export const GET_ADMIN_USERS = gql`
   }
 `;
 
+// Один пользователь по id — для экрана деталей.
+export const GET_ADMIN_USER = gql`
+  query AdminUser($id: Int!) {
+    adminUser(id: $id) {
+      id
+      email
+      name
+      platformRole
+      isTester
+      createdAt
+      ownedWorkspaceCount
+      memberWorkspaceCount
+    }
+  }
+`;
+
 // Тестер: пейволл и биллинговые паузы не трогают воркспейсы, которыми он владеет.
 export const SET_USER_TESTER = gql`
   mutation AdminSetUserTester($userId: Int!, $isTester: Boolean!) {
     adminSetUserTester(userId: $userId, isTester: $isTester) {
       id
       isTester
+    }
+  }
+`;
+
+// Роль платформы: STAFF — доступ в админку, SUPERADMIN — плюс право менять роли,
+// null — обычный клиент. Менять может только суперадмин (проверка на бэке).
+// Ответ несёт id и platformRole — Apollo сам обновит нормализованного AdminUser.
+export const SET_USER_ROLE = gql`
+  mutation AdminSetUserRole($userId: Int!, $role: PlatformRole) {
+    adminSetUserRole(userId: $userId, role: $role) {
+      id
+      platformRole
     }
   }
 `;
