@@ -1,8 +1,12 @@
-/* Шрифт и база. Семантические токены приходят из sandbox-tokens/* (colors.scss,
- * tokens.scss) — они объявлены на голом :root и работают без data-theme.
- * Генерируемые темы (styles/generated/themes/*.css) привязаны к
- * :root[data-theme=...], который в админке никто не выставляет, поэтому их
- * сюда не подключаем — иначе это мёртвый слой, который только путает. */
+/* Шрифт, темы и база — в том же порядке, что на платформе (promobile-ads
+ * src/index.css → sandbox/tokens/*): сначала сгенерированные из Figma темы на
+ * :root[data-theme=light|dark], потом sandbox-tokens/* (их подключает main.tsx)
+ * как запасной слой и алиасы --ds-*. data-theme ставит скрипт в index.html до
+ * первой отрисовки и хук useTheme при переключении в шапке. Без dark.css плитки
+ * сайдбара, бейджи и подсветки остались бы пастельными в тёмной теме. */
+
+@import "./styles/generated/themes/light.css";
+@import "./styles/generated/themes/dark.css";
 
 @font-face {
   font-family: "Rubik";

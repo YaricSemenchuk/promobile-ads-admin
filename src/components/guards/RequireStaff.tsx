@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_CURRENT_USER } from "../../api/queries";
+import { StaffContext } from "./staffContext";
 
 /**
  * UI-only gate. Настоящая проверка — на бэке, в admin-panel.resolvers.ts
@@ -17,5 +18,10 @@ export function RequireStaff() {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  // Сотрудник уже загружен — шапка берёт его отсюда, а не вторым запросом.
+  return (
+    <StaffContext.Provider value={data.user}>
+      <Outlet />
+    </StaffContext.Provider>
+  );
 }

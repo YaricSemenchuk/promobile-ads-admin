@@ -239,10 +239,21 @@ export const GET_ADMIN_USERS = gql`
         email
         name
         platformRole
+        isTester
         createdAt
         ownedWorkspaceCount
         memberWorkspaceCount
       }
+    }
+  }
+`;
+
+// Тестер: пейволл и биллинговые паузы не трогают воркспейсы, которыми он владеет.
+export const SET_USER_TESTER = gql`
+  mutation AdminSetUserTester($userId: Int!, $isTester: Boolean!) {
+    adminSetUserTester(userId: $userId, isTester: $isTester) {
+      id
+      isTester
     }
   }
 `;
@@ -506,6 +517,26 @@ export const GET_ADMIN_MCP_CONNECTIONS = gql`
   }
 `;
 
+export const GET_ADMIN_KEYWORD_MARKET_TOP = gql`
+  query AdminKeywordMarketTop($country: String!, $from: String!, $to: String!, $limit: Int, $minAdvertisers: Int) {
+    adminKeywordMarketTop(country: $country, from: $from, to: $to, limit: $limit, minAdvertisers: $minAdvertisers) {
+      country
+      termsTotal
+      terms {
+        searchTerm
+        date
+        advertisers
+        popularity
+        topSlotKnownLow
+        topSlotKnownHigh
+        allSlotsKnownLow
+        allSlotsKnownHigh
+        inconsistent
+      }
+    }
+  }
+`;
+
 export const GET_ADMIN_MCP_CONNECTION = gql`
   query AdminMcpConnection($id: String!, $limit: Int, $offset: Int) {
     adminMcpConnection(id: $id, limit: $limit, offset: $offset) {
@@ -552,6 +583,25 @@ export const GET_ADMIN_MCP_CONNECTION = gql`
         okCount
         failedCount
         createdAt
+      }
+    }
+  }
+`;
+
+export const GET_ADMIN_KEYWORD_MARKET = gql`
+  query AdminKeywordMarket($country: String!, $searchTerm: String!, $from: String!, $to: String!) {
+    adminKeywordMarket(country: $country, searchTerm: $searchTerm, from: $from, to: $to) {
+      country
+      searchTerm
+      connections
+      days {
+        date
+        advertisers
+        topSlotKnownLow
+        topSlotKnownHigh
+        allSlotsKnownLow
+        allSlotsKnownHigh
+        inconsistent
       }
     }
   }
