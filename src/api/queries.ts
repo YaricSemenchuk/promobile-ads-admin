@@ -239,10 +239,49 @@ export const GET_ADMIN_USERS = gql`
         email
         name
         platformRole
+        isTester
         createdAt
         ownedWorkspaceCount
         memberWorkspaceCount
       }
+    }
+  }
+`;
+
+// Один пользователь по id — для экрана деталей.
+export const GET_ADMIN_USER = gql`
+  query AdminUser($id: Int!) {
+    adminUser(id: $id) {
+      id
+      email
+      name
+      platformRole
+      isTester
+      createdAt
+      ownedWorkspaceCount
+      memberWorkspaceCount
+    }
+  }
+`;
+
+// Тестер: пейволл и биллинговые паузы не трогают воркспейсы, которыми он владеет.
+export const SET_USER_TESTER = gql`
+  mutation AdminSetUserTester($userId: Int!, $isTester: Boolean!) {
+    adminSetUserTester(userId: $userId, isTester: $isTester) {
+      id
+      isTester
+    }
+  }
+`;
+
+// Роль платформы: STAFF — доступ в админку, SUPERADMIN — плюс право менять роли,
+// null — обычный клиент. Менять может только суперадмин (проверка на бэке).
+// Ответ несёт id и platformRole — Apollo сам обновит нормализованного AdminUser.
+export const SET_USER_ROLE = gql`
+  mutation AdminSetUserRole($userId: Int!, $role: PlatformRole) {
+    adminSetUserRole(userId: $userId, role: $role) {
+      id
+      platformRole
     }
   }
 `;
@@ -477,6 +516,121 @@ export const MARK_INVOICE_PAID = gql`
       chargedAt
       invoiceNumber
       dueAt
+    }
+  }
+`;
+
+export const GET_ADMIN_MCP_CONNECTIONS = gql`
+  query AdminMcpConnections($search: String, $limit: Int, $offset: Int) {
+    adminMcpConnections(search: $search, limit: $limit, offset: $offset) {
+      total
+      rows {
+        id
+        userId
+        userEmail
+        userName
+        workspaceId
+        workspaceName
+        label
+        scope
+        clientName
+        allWorkspaces
+        lastUsedAt
+        revokedAt
+        createdAt
+        requestCount
+        changeCount
+      }
+    }
+  }
+`;
+
+export const GET_ADMIN_KEYWORD_MARKET_TOP = gql`
+  query AdminKeywordMarketTop($country: String!, $from: String!, $to: String!, $limit: Int, $minAdvertisers: Int) {
+    adminKeywordMarketTop(country: $country, from: $from, to: $to, limit: $limit, minAdvertisers: $minAdvertisers) {
+      country
+      termsTotal
+      terms {
+        searchTerm
+        date
+        advertisers
+        popularity
+        topSlotKnownLow
+        topSlotKnownHigh
+        allSlotsKnownLow
+        allSlotsKnownHigh
+        inconsistent
+      }
+    }
+  }
+`;
+
+export const GET_ADMIN_MCP_CONNECTION = gql`
+  query AdminMcpConnection($id: String!, $limit: Int, $offset: Int) {
+    adminMcpConnection(id: $id, limit: $limit, offset: $offset) {
+      connection {
+        id
+        userId
+        userEmail
+        userName
+        workspaceId
+        workspaceName
+        label
+        scope
+        clientName
+        allWorkspaces
+        lastUsedAt
+        revokedAt
+        createdAt
+        requestCount
+        changeCount
+      }
+      requestsTotal
+      requests {
+        id
+        toolName
+        args
+        ok
+        errorMessage
+        durationMs
+        workspaceId
+        workspaceName
+        createdAt
+      }
+      changesTotal
+      changes {
+        id
+        workspaceId
+        workspaceName
+        userEmail
+        actor
+        entityType
+        action
+        changeSource
+        status
+        okCount
+        failedCount
+        createdAt
+      }
+    }
+  }
+`;
+
+export const GET_ADMIN_KEYWORD_MARKET = gql`
+  query AdminKeywordMarket($country: String!, $searchTerm: String!, $from: String!, $to: String!) {
+    adminKeywordMarket(country: $country, searchTerm: $searchTerm, from: $from, to: $to) {
+      country
+      searchTerm
+      connections
+      days {
+        date
+        advertisers
+        topSlotKnownLow
+        topSlotKnownHigh
+        allSlotsKnownLow
+        allSlotsKnownHigh
+        inconsistent
+      }
     }
   }
 `;

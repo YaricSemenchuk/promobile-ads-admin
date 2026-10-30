@@ -5,6 +5,7 @@ import cs from "classnames";
 import { GET_ADMIN_BILLING_ACCOUNTS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
+import { Select } from "../../components/ui";
 import styles from "../../styles/list.module.scss";
 
 interface BillingRow {
@@ -32,7 +33,10 @@ interface BillingRow {
 type Column = "workspace" | "plan" | "status" | "card" | "period" | "revenue";
 
 const PAGE_SIZE = 50;
-const STATUSES = ["", "ACTIVE", "TRIAL", "PAST_DUE", "INACTIVE", "CANCELLED"];
+const STATUS_OPTIONS = ["", "ACTIVE", "TRIAL", "PAST_DUE", "INACTIVE", "CANCELLED"].map((s) => ({
+  value: s,
+  label: s || "All statuses",
+}));
 
 const money = (value: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
@@ -85,21 +89,16 @@ export function BillingPage() {
       <h1 className={styles.pageTitle}>Billing</h1>
 
       <div className={styles.controls}>
-        <select
-          className={styles.select}
+        <Select
+          className={styles.filterSelect}
           value={status}
-          onChange={(e) => {
-            setStatus(e.target.value);
+          onChange={(next) => {
+            setStatus(next);
             setOffset(0);
           }}
-          aria-label="Filter by billing status"
-        >
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s || "All statuses"}
-            </option>
-          ))}
-        </select>
+          options={STATUS_OPTIONS}
+          ariaLabel="Filter by billing status"
+        />
 
         <span className={styles.live}>
           {total} accounts

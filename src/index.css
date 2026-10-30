@@ -1,3 +1,10 @@
+/* Шрифт, темы и база — в том же порядке, что на платформе (promobile-ads
+ * src/index.css → sandbox/tokens/*): сначала сгенерированные из Figma темы на
+ * :root[data-theme=light|dark], потом sandbox-tokens/* (их подключает main.tsx)
+ * как запасной слой и алиасы --ds-*. data-theme ставит скрипт в index.html до
+ * первой отрисовки и хук useTheme при переключении в шапке. Без dark.css плитки
+ * сайдбара, бейджи и подсветки остались бы пастельными в тёмной теме. */
+
 @import "./styles/generated/themes/light.css";
 @import "./styles/generated/themes/dark.css";
 
@@ -32,6 +39,24 @@ body,
 body {
   margin: 0;
   font-family: var(--ds-font-body, "Rubik", system-ui, sans-serif);
-  background: var(--ui-page-bg-default, #f5f6fa);
-  color: var(--ui-text-primary-default, #1a1a1a);
+  font-size: var(--ds-font-size-14, 14px);
+  line-height: var(--ds-line-height-20, 20px);
+  background: var(--ui-page-bg-default, #f5f6fc);
+  color: var(--ui-text-primary-default, #202020);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Цифры в таблицах и плитках выравниваются по разрядам: оператор админки
+ * сверяет суммы и счётчики столбиком, а пропорциональные цифры съезжают. */
+table,
+.tabularNums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Единый фокус для клавиатуры по всей админке: видимое кольцо бренда, но
+ * только при навигации с клавиатуры, чтобы клик мышью не обводил контролы. */
+:focus-visible {
+  outline: 2px solid var(--button-brand-primary-bg-default, #4262ff);
+  outline-offset: 2px;
 }

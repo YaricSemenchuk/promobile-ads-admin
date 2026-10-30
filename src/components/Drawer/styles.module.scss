@@ -201,61 +201,9 @@
   overflow-wrap: anywhere;
 }
 
-// ---- выбор из списка ----
-
-.select {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--ds-space-8);
-  width: 100%;
-  height: 48px;
-  padding: 0 var(--ds-space-16);
-  box-sizing: border-box;
-  border: 1px solid var(--ui-text-quaternary-default, #d7d9e0);
-  border-radius: var(--ds-radius-control-large, 12px);
-
-  &:focus-within {
-    border-color: var(--button-brand-primary-bg-default, #4262ff);
-  }
-}
-
-.selectText {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  font-size: var(--ds-font-size-16, 16px);
-  line-height: var(--ds-line-height-24, 24px);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.selectArrow {
-  flex: none;
-  width: 16px;
-  height: 16px;
-  color: var(--ui-text-secondary-default, #7c7e8a);
-}
-
-// Нативный список лежит поверх строки и прозрачен: раскрывается системный
-// popup, а видно то, что нарисовано под ним.
-.selectNative {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.selectOff {
-  opacity: 0.6;
-
-  .selectNative {
-    cursor: default;
-  }
-}
+// Выбор из списка рисует примитив Select (components/ui): портал в body,
+// токены, одинаковый список в любой ОС. Здесь остаётся только обёртка
+// .field с label и caption.
 
 // ---- плашка внутри шага ----
 

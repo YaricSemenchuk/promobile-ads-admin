@@ -5,6 +5,7 @@ import cs from "classnames";
 import { GET_ADMIN_RAMP_UPS } from "../../api/queries";
 import { SettingsTable } from "../../components/SettingsTable";
 import { Pager } from "../../components/Pager";
+import { Select } from "../../components/ui";
 import styles from "../../styles/list.module.scss";
 
 interface RampUpRow {
@@ -29,7 +30,10 @@ interface RampUpRow {
 type Column = "workspace" | "app" | "status" | "goal" | "budget" | "harvest";
 
 const PAGE_SIZE = 50;
-const STATUSES = ["", "ACTIVE", "PAUSED", "STOPPED"];
+const STATUS_OPTIONS = ["", "ACTIVE", "PAUSED", "STOPPED"].map((s) => ({
+  value: s,
+  label: s || "All statuses",
+}));
 
 // Сбор суточный: сутки молчания у активного контура — уже подозрительно.
 const HARVEST_STALE_H = 26;
@@ -78,21 +82,16 @@ export function RampUpsPage() {
       <h1 className={styles.pageTitle}>Ramp-Up</h1>
 
       <div className={styles.controls}>
-        <select
-          className={styles.select}
+        <Select
+          className={styles.filterSelect}
           value={status}
-          onChange={(e) => {
-            setStatus(e.target.value);
+          onChange={(next) => {
+            setStatus(next);
             setOffset(0);
           }}
-          aria-label="Filter by status"
-        >
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s || "All statuses"}
-            </option>
-          ))}
-        </select>
+          options={STATUS_OPTIONS}
+          ariaLabel="Filter by status"
+        />
 
         <span className={styles.live}>
           {total} loops

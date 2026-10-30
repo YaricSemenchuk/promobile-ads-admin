@@ -1,9 +1,15 @@
+// Общий модуль детальных экранов: WorkspaceDetail, AsaConnectionDetail,
+// AppDetail, TaskDetail, TrialSection. Формы и радиусы — по дизайн-системе:
+// карточка 16px, поле 12px, кнопка 10px, пилюля 999. Цвета — семантические
+// токены, поэтому тема переключается сама.
+
 .back {
   display: inline-block;
-  font-size: 13px;
+  font-size: var(--ds-font-size-12, 13px);
+  line-height: var(--ds-line-height-16, 16px);
   color: var(--ui-text-tertiary-default);
   text-decoration: none;
-  margin-bottom: 12px;
+  margin-bottom: var(--ds-space-12, 12px);
 
   &:hover {
     color: var(--ui-text-primary-default);
@@ -14,54 +20,65 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--ds-padding-lg, 16px);
 }
 
 .pageTitle {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: var(--ds-font-size-28, 28px);
+  line-height: var(--ds-line-height-36, 36px);
+  font-weight: var(--ds-font-weight-semibold, 600);
   color: var(--ui-text-primary-default);
-  margin: 0 0 4px;
+  margin: 0 0 var(--ds-space-4, 4px);
 }
 
 .subtitle {
-  font-size: 13px;
+  font-size: var(--ds-font-size-14, 13px);
+  line-height: var(--ds-line-height-20, 20px);
   color: var(--ui-text-tertiary-default);
-  margin-bottom: 20px;
+  margin-bottom: var(--ds-padding-xl, 24px);
 }
 
 .sectionTitle {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--ds-font-size-18, 18px);
+  line-height: var(--ds-line-height-24, 24px);
+  font-weight: var(--ds-font-weight-semibold, 600);
   color: var(--ui-text-primary-default);
-  margin: 32px 0 16px;
+  margin: var(--ds-padding-xl, 24px) 0 var(--ds-padding-lg, 16px);
 }
 
 .state {
   color: var(--ui-text-tertiary-default);
-  padding: 24px 0;
+  padding: var(--ds-padding-xl, 24px) 0;
 }
 
 .error {
   color: var(--ui-text-primary-error, #f04438);
-  font-size: 13px;
-  margin-bottom: 16px;
+  font-size: var(--ds-font-size-12, 13px);
+  line-height: var(--ds-line-height-16, 16px);
+  margin-bottom: var(--ds-padding-lg, 16px);
 }
 
+// «Log in as owner» — вторичное действие в шапке: рамка 10px, бренд на
+// наведении. Та же форма, что у примитива Button secondary.
 .impersonate {
   flex: none;
-  padding: 10px 16px;
+  height: 40px;
+  padding: 0 var(--ds-padding-lg, 16px);
   border: 1px solid var(--ui-border-primary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
+  border-radius: var(--ds-radius-control-medium, 10px);
   background: var(--ui-card-bg-default);
   color: var(--ui-text-primary-default);
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--ds-font-size-14, 14px);
+  font-weight: var(--ds-font-weight-medium, 500);
   cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
 
   &:hover:not(:disabled) {
-    border-color: var(--blue-background-strong, #4262ff);
-    color: var(--blue-background-strong, #4262ff);
+    border-color: var(--button-brand-primary-bg-default, #4262ff);
+    color: var(--button-brand-primary-bg-default, #4262ff);
   }
 
   &:disabled {
@@ -72,27 +89,31 @@
 
 .tiles {
   display: flex;
-  gap: 16px;
+  gap: var(--ds-padding-lg, 16px);
 }
 
+// Плитка-метрика — карточка дизайн-системы (16px, рамка).
 .tile {
   flex: 1;
   background: var(--ui-card-bg-default);
   border: 1px solid var(--ui-border-secondary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  padding: 16px 20px;
+  border-radius: var(--ds-radius-card, 16px);
+  padding: var(--ds-padding-lg, 16px) var(--ds-padding-xl, 24px);
 }
 
 .tileLabel {
-  font-size: 13px;
+  font-size: var(--ds-font-size-12, 13px);
+  line-height: var(--ds-line-height-16, 16px);
   color: var(--ui-text-tertiary-default);
-  margin-bottom: 8px;
+  margin-bottom: var(--ds-space-8, 8px);
 }
 
 .tileValue {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: var(--ds-font-size-20, 20px);
+  line-height: var(--ds-line-height-28, 28px);
+  font-weight: var(--ds-font-weight-semibold, 600);
   color: var(--ui-text-primary-default);
+  font-variant-numeric: tabular-nums;
 }
 
 // Статус несёт смысл цветом, поэтому текст самого статуса остаётся на месте:
@@ -111,7 +132,7 @@
 
 .note {
   color: var(--ui-text-tertiary-default);
-  font-weight: 400;
+  font-weight: var(--ds-font-weight-regular, 400);
 }
 
 .warn {
@@ -136,7 +157,7 @@
 }
 
 .cellSub {
-  font-size: 12px;
+  font-size: var(--ds-font-size-12, 12px);
   color: var(--ui-text-tertiary-default);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -147,10 +168,11 @@
   display: inline-flex;
   align-items: center;
   align-self: flex-start;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
+  padding: 2px var(--ds-space-8, 8px);
+  border-radius: var(--ds-radius-full, 999px);
+  font-size: var(--ds-font-size-12, 12px);
+  line-height: var(--ds-line-height-16, 16px);
+  font-weight: var(--ds-font-weight-medium, 500);
   letter-spacing: 0.02em;
   background: color-mix(in srgb, currentColor 12%, transparent);
 }
@@ -163,17 +185,17 @@
   gap: 0 32px;
   background: var(--ui-card-bg-default, #fff);
   border: 1px solid var(--ui-border-secondary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  padding: 8px 16px;
+  border-radius: var(--ds-radius-card, 16px);
+  padding: var(--ds-space-8, 8px) var(--ds-padding-lg, 16px);
 }
 
 .defRow {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--ds-padding-lg, 16px);
   padding: 10px 0;
   border-bottom: 1px solid var(--ui-border-secondary-default);
-  font-size: 14px;
+  font-size: var(--ds-font-size-14, 14px);
   min-width: 0;
 }
 
@@ -188,6 +210,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 720px) {
@@ -212,6 +235,7 @@
   text-align: left;
   font: inherit;
   width: 100%;
+  transition: border-color 0.15s ease;
 
   &:hover {
     border-color: var(--blue-background-strong, #4262ff);
@@ -243,54 +267,63 @@
 .trialCard {
   background: var(--ui-card-bg-default, #fff);
   border: 1px solid var(--ui-border-secondary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  padding: 16px;
-  margin-bottom: 12px;
+  border-radius: var(--ds-radius-card, 16px);
+  padding: var(--ds-padding-xl, 24px);
+  margin-bottom: var(--ds-space-12, 12px);
 }
 
 .trialForm,
 .trialActions {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--ds-padding-lg, 16px);
 }
 
 .trialActions {
-  margin-top: 16px;
+  margin-top: var(--ds-padding-lg, 16px);
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--ds-space-8, 8px);
 }
 
 .label {
-  font-size: 13px;
+  font-size: var(--ds-font-size-12, 13px);
+  line-height: var(--ds-line-height-16, 16px);
   color: var(--ui-text-secondary-default);
 }
 
 .inlineRow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--ds-space-8, 8px);
   flex-wrap: wrap;
 }
 
+// Поля ввода — радиус 12px и высота 40px, как у примитивов TextInput/Select.
 .input,
-.select,
 .inputNarrow {
-  padding: 8px 12px;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 var(--ds-space-12, 12px);
   border: 1px solid var(--ui-border-primary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
+  border-radius: var(--ds-radius-control-large, 12px);
   background: var(--ui-card-bg-default);
   color: var(--ui-text-primary-default);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--ds-font-size-14, 14px);
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--button-brand-primary-bg-default, #4262ff);
+  }
 }
 
 .input,
-.select {
+.reasonSelect {
   width: 100%;
   max-width: 420px;
 }
@@ -299,15 +332,20 @@
   width: 84px;
 }
 
+// Пресет-чип (длительность триала): форма чипа — радиус 8px.
 .preset {
-  padding: 8px 14px;
+  height: 32px;
+  padding: 0 var(--ds-space-12, 12px);
   border: 1px solid var(--ui-border-primary-default);
   border-radius: var(--ds-radius-control-small, 8px);
   background: var(--ui-card-bg-default);
   color: var(--ui-text-primary-default);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--ds-font-size-14, 14px);
   cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
 
   &:hover {
     border-color: var(--blue-background-strong, #4262ff);
@@ -320,16 +358,24 @@
   box-shadow: 0 0 0 1px var(--blue-background-strong, #4262ff);
 }
 
+// Действия триала. Форма и цвета совпадают с примитивом Button (primary /
+// secondary / danger), радиус кнопки 10px.
 .primaryButton,
 .secondaryButton,
 .dangerButton {
   align-self: flex-start;
-  padding: 10px 18px;
-  border-radius: var(--ds-radius-control-small, 8px);
+  height: 40px;
+  padding: 0 var(--ds-padding-lg, 16px);
+  border-radius: var(--ds-radius-control-medium, 10px);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--ds-font-size-14, 14px);
+  font-weight: var(--ds-font-weight-medium, 500);
   cursor: pointer;
   border: 1px solid transparent;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 
   &:disabled {
     opacity: 0.5;
@@ -338,8 +384,12 @@
 }
 
 .primaryButton {
-  background: var(--blue-background-strong, #4262ff);
-  color: #fff;
+  background: var(--button-brand-primary-bg-default, #4262ff);
+  color: var(--button-brand-primary-text-default, #fff);
+
+  &:hover:not(:disabled) {
+    background: var(--button-brand-primary-bg-hover, #304bd1);
+  }
 }
 
 .secondaryButton {
@@ -347,7 +397,7 @@
   border-color: var(--ui-border-primary-default);
   color: var(--ui-text-primary-default);
 
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: var(--blue-background-strong, #4262ff);
     color: var(--blue-background-strong, #4262ff);
   }
@@ -357,13 +407,18 @@
   background: var(--ui-card-bg-default);
   border-color: var(--ui-text-primary-error, #f04438);
   color: var(--ui-text-primary-error, #f04438);
+
+  &:hover:not(:disabled) {
+    background: var(--error-background-subtlest, #fef6f5);
+  }
 }
 
 .warnBanner {
-  padding: 10px 12px;
-  margin-bottom: 12px;
-  border-radius: var(--ds-radius-control-small, 8px);
-  font-size: 13px;
+  padding: var(--ds-space-8, 10px) var(--ds-space-12, 12px);
+  margin-bottom: var(--ds-space-12, 12px);
+  border-radius: var(--ds-radius-control-large, 12px);
+  font-size: var(--ds-font-size-12, 13px);
+  line-height: var(--ds-line-height-16, 16px);
   color: var(--ui-text-primary-warning, #f79009);
   background: color-mix(in srgb, var(--ui-text-primary-warning, #f79009) 12%, transparent);
 }

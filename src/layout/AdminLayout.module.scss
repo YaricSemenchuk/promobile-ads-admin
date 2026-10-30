@@ -1,68 +1,38 @@
+// Каркас платформы (promobile-ads src/layouts/MainLayout/styles.module.scss):
+// 16px поля окна, сайдбар-карточка, 16px зазор, колонка «шапка + 12px +
+// страница». Страница — одна большая карточка, как экраны Apple Ads (.page в
+// src/pages/AppleAds/styles.module.scss), и прокручивается только она.
+
 .shell {
   display: flex;
-  min-height: 100%;
+  gap: 16px;
+  height: 100vh;
+  padding: 16px;
+  background: var(--ui-page-bg-default);
+  overflow: hidden;
 }
 
-.sidebar {
-  width: var(--ds-sidebar-width-full, 224px);
-  flex-shrink: 0;
-  background: var(--ui-card-bg-default);
-  border-right: 1px solid var(--ui-border-secondary-default);
-  padding: var(--ds-space-16, 16px) var(--ds-space-12, 12px);
-}
-
-.logo {
-  font-weight: 600;
-  font-size: var(--ds-font-size-16, 16px);
-  color: var(--ui-text-primary-default);
-  padding: 8px;
-  margin-bottom: 16px;
-}
-
-.section {
-  margin-bottom: 16px;
-}
-
-// Заголовок раздела разделяет, а не привлекает: он тише самих пунктов, иначе
-// сайдбар читается как список заголовков, а не как навигация.
-.sectionTitle {
-  padding: 0 12px 6px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ui-text-tertiary-default);
-}
-
-.nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.column {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
 }
 
-.link {
-  display: block;
-  padding: 10px 12px;
-  border-radius: var(--ds-radius-control-small, 8px);
-  color: var(--ui-text-secondary-default);
-  text-decoration: none;
-  font-size: 14px;
-
-  &:hover {
-    background: var(--ui-modal-bg-hover);
-  }
-}
-
-.active {
-  background: var(--blue-background-subtle, #d9e0ff);
-  color: var(--ui-text-primary-active);
-}
-
-.content {
-  flex: 1;
-  padding: var(--ds-padding-xl, 32px);
+.page {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
+  padding: 24px 32px;
+  background: var(--ui-card-bg-default);
+  border-radius: var(--ds-radius-large);
+  color: var(--ui-text-primary-default);
+  font-family: var(--ds-font-body);
+
+  @media (max-width: 1440px) {
+    padding: 16px 24px;
+  }
 }

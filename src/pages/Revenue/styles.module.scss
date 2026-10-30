@@ -1,60 +1,65 @@
-.pageTitle {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--ui-text-primary-default);
-  margin: 0 0 20px;
-}
-
 .sectionTitle {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--ds-font-size-18, 18px);
+  line-height: var(--ds-line-height-24, 24px);
+  font-weight: var(--ds-font-weight-semibold, 600);
   color: var(--ui-text-primary-default);
-  margin: 32px 0 16px;
+  margin: var(--ds-padding-xl, 24px) 0 var(--ds-padding-lg, 16px);
 }
 
 .state {
   color: var(--ui-text-tertiary-default);
-  padding: 24px 0;
+  padding: var(--ds-padding-xl, 24px) 0;
 }
 
 .tiles {
   display: flex;
-  gap: 16px;
+  gap: var(--ds-padding-lg, 16px);
 }
 
+// KPI-плитка — карточка дизайн-системы (радиус 16px). Разделяет рамка, не
+// тень. Цифра крупная и выровнена по разрядам: это первое, что читает оператор.
 .tile {
   flex: 1;
   background: var(--ui-card-bg-default);
   border: 1px solid var(--ui-border-secondary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  padding: 16px 20px;
+  border-radius: var(--ds-radius-card, 16px);
+  padding: var(--ds-padding-lg, 16px) var(--ds-padding-xl, 24px);
 }
 
+// Просрочка — единственная плитка со статусным цветом, и только когда есть что
+// показать: красная рамка + красная цифра тянут взгляд к проблеме.
 .tileWarn {
   border-color: var(--ui-text-primary-error, #f04438);
+
+  .tileValue {
+    color: var(--ui-text-primary-error, #f04438);
+  }
 }
 
 .tileLabel {
-  font-size: 13px;
+  font-size: var(--ds-font-size-12, 12px);
+  line-height: var(--ds-line-height-16, 16px);
   color: var(--ui-text-tertiary-default);
-  margin-bottom: 8px;
+  margin-bottom: var(--ds-space-8, 8px);
 }
 
 .tileValue {
-  font-size: 28px;
-  font-weight: 600;
+  font-size: var(--ds-font-size-32, 32px);
+  line-height: var(--ds-line-height-40, 40px);
+  font-weight: var(--ds-font-weight-semibold, 600);
   color: var(--ui-text-primary-default);
+  font-variant-numeric: tabular-nums;
 }
 
 .chart {
   display: flex;
   align-items: flex-end;
-  gap: 8px;
+  gap: var(--ds-space-8, 8px);
   height: 200px;
   background: var(--ui-card-bg-default);
   border: 1px solid var(--ui-border-secondary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  padding: 16px;
+  border-radius: var(--ds-radius-card, 16px);
+  padding: var(--ds-padding-lg, 16px);
 }
 
 .bar {
@@ -69,8 +74,9 @@
 .barFill {
   width: 60%;
   min-height: 2px;
-  background: var(--blue-background-strong, #4262ff);
-  border-radius: 2px 2px 0 0;
+  background: var(--button-brand-primary-bg-default, #4262ff);
+  border-radius: var(--ds-space-4, 4px) var(--ds-space-4, 4px) 0 0;
+  transition: height 0.2s ease;
 }
 
 .barLabel {

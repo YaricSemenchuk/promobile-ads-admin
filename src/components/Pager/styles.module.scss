@@ -2,33 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 16px;
+  gap: var(--ds-space-12, 12px);
+  margin-top: var(--ds-padding-lg, 16px);
 }
 
 .count {
-  font-size: 13px;
+  font-size: var(--ds-font-size-12, 12px);
+  line-height: var(--ds-line-height-16, 16px);
   color: var(--ui-text-tertiary-default);
   margin-right: auto;
-}
-
-.btn {
-  padding: 8px 14px;
-  border: 1px solid var(--ui-border-primary-default);
-  border-radius: var(--ds-radius-control-small, 8px);
-  background: var(--ui-card-bg-default);
-  color: var(--ui-text-primary-default);
-  font-family: inherit;
-  font-size: 13px;
-  cursor: pointer;
-
-  &:hover:not(:disabled) {
-    border-color: var(--blue-background-strong, #4262ff);
-    color: var(--blue-background-strong, #4262ff);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
 }
