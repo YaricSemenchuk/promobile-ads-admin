@@ -64,7 +64,12 @@ export function SettingsTable<K extends string, R>({
   }, []);
 
   return (
-    <div className={cs(styles.wrap, className)}>
+    // Своя область прокрутки живёт внутри Lenis-скролла страницы (<main> в
+    // AdminLayout). Без этой пометки Lenis перехватывает колесо и крутит
+    // страницу вместо тела таблицы — а страница упёрта в край, и визуально
+    // таблица «не скроллится». data-lenis-prevent отдаёт колесо и тач нативной
+    // прокрутке этого контейнера.
+    <div className={cs(styles.wrap, className)} data-lenis-prevent>
       <table className={styles.table} style={{ minWidth }}>
         <colgroup>
           {columns.map((c) => (
